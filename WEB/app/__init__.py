@@ -14,6 +14,8 @@ from .productos import productos
 from .proveedores import proveedores
 from .roles import roles
 from .ventas import ventas
+from .registro import registro
+from .nosotros import nosotros
 
 def create_app():
     app=Flask(__name__)
@@ -30,4 +32,7 @@ def create_app():
     app.register_blueprint(proveedores)
     app.register_blueprint(roles)
     app.register_blueprint(ventas)
+    app.register_blueprint(registro)
+    app.register_blueprint(nosotros)
+    
     return app
