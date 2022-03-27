@@ -16,6 +16,7 @@ from .roles import roles
 from .ventas import ventas
 from .registro import registro
 from .nosotros import nosotros
+from .inicio import inicio
 
 def create_app():
     app=Flask(__name__)
@@ -34,5 +35,5 @@ def create_app():
     app.register_blueprint(ventas)
     app.register_blueprint(registro)
     app.register_blueprint(nosotros)
-    
+    app.register_blueprint(inicio)
     return app
