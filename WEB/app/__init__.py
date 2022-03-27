@@ -1,12 +1,12 @@
 from flask import Flask
 
-from app import examen
 from .config import DevelopmentConfig
 from .site import site
 from .login import login
 from .clientes import clientes
 from .compras import compras
 from .empleados import empleados
+from .insumos import insumos
 
 def create_app():
     app=Flask(__name__)
@@ -16,4 +16,5 @@ def create_app():
     app.register_blueprint(clientes)
     app.register_blueprint(compras)
     app.register_blueprint(empleados)
+    app.register_blueprint(insumos)
     return app
