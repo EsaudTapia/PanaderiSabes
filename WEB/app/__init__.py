@@ -1,3 +1,4 @@
+import imp
 from flask import Flask
 
 from .config import DevelopmentConfig
@@ -7,6 +8,12 @@ from .clientes import clientes
 from .compras import compras
 from .empleados import empleados
 from .insumos import insumos
+from .mermas import mermas
+from .pedidos import pedidos
+from .productos import productos
+from .proveedores import proveedores
+from .roles import roles
+from .ventas import ventas
 
 def create_app():
     app=Flask(__name__)
@@ -17,4 +24,10 @@ def create_app():
     app.register_blueprint(compras)
     app.register_blueprint(empleados)
     app.register_blueprint(insumos)
+    app.register_blueprint(mermas)
+    app.register_blueprint(pedidos)
+    app.register_blueprint(productos)
+    app.register_blueprint(proveedores)
+    app.register_blueprint(roles)
+    app.register_blueprint(ventas)
     return app
