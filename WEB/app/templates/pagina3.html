@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block content %}
+{% from "_macros.html" import render_field %}
+<div class="row">
+    <div class="col-3">
+        <div class="form-group">
+            <h3>Consultar</h3>
+        </div>
+        <form action="" method="POST">
+            <div class="form-row">
+                <div class="">
+                    {{ filtro_form.csrf_token }}
+                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                </div>
+                <div class="col">
+                    {{ render_field(filtro_form.matricula) }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="">
+                    {{ filtro_form.csrf_token }}
+                </div>
+                <div class="col">
+                    {{ render_field(filtro_form.grupo) }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="">
+                    {{ render_field(filtro_form.tipo) }}
+                </div>
+            </div>
+            <div class="form-group text-right">
+                {{ render_field(filtro_form.submit,class="btn btn-success") }}
+            </div>
+        </form>
+    </div>
+
+    <div class="col-9">
+        <div class="form-group">
+            <div class="form-group">
+                <h3>Consultar resultados</h3>
+            </div>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Grupo</th>
+                        <th>Edad</th>
+                        <th>Horoscopo</th>
+                        <th>Cal.</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {%for f in resulta%}
+                    <tr>
+                        <td>{{f[0]}}</td>
+                        <td>{{f[1]}}</td>
+                        <td>{{f[2]}}</td>
+                        <td>{{f[3]}} años</td>
+                        <td>{{f[4]}} <img src="../static/img/{{f[4]}}.jpg" alt="" style="width: 80px; height: 80px;"></td>
+                        <td>{{f[5]}} </td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock%}

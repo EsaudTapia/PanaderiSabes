@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% from '_macros.html' import render_field %}
+
+<div class="row ">
+    <div class="col-12">
+        <div class="form-group">
+            <h3>Consultar</h3>
+        </div>
+        <div class="form-group">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Nombre</th>
+                        <th>APaterno</th>
+                        <th>AMaterno</th>
+                        <th>Grupo</th>
+                        <th>fecha Nac.</th>
+                        <th>Sexo</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    {%for f in resulta%}
+                    <tr>
+                        <td>{{f[0]}}</td>
+                        <td>{{f[1]}}</td>
+                        <td>{{f[2]}}</td>
+                        <td>{{f[3]}}</td>
+                        <td>{{f[4]}}</td>
+                        <td>{{f[5]}}-{{f[6]}}-{{f[7]}}</td>
+                        <td>{{f[8]}}</td>
+                    </tr>
+                    {%endfor%}                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock%}

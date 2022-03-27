@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+{% from "_macros.html" import render_field %}
+
+
+<form action="" method="POST" class="form-horizontal bordered" name="form1">
+    <div class="control-group">
+        <h3>Registro de alumnos</h3>
+    </div>
+    {{ alumno_form.csrf_token }}
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+    <div class="row">
+        <div class="col-6">
+            {{ render_field(alumno_form.matricula) }}
+        </div>
+        <div class="col-6">
+            {{ render_field(alumno_form.nombre) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            {{ render_field(alumno_form.apaterno) }}
+        </div>
+        <div class="col-6">
+            {{ render_field(alumno_form.amaterno) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            {{ render_field(alumno_form.grupo) }}
+        </div>
+        <div class="col-6">
+            {{ render_field(alumno_form.dia) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            {{ render_field(alumno_form.mes) }}
+        </div>
+        <div class="col-6">
+            {{ render_field(alumno_form.año) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            {{ render_field(alumno_form.sexo) }}
+        </div>
+        <div class="col-6">
+            {{ render_field(alumno_form.submit,class="btn btn-success") }}
+        </div>
+    </div>    
+    
+    
+    
+</form>
+
+
+{% endblock content %}
