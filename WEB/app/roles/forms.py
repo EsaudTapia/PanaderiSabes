@@ -9,3 +9,5 @@ class Registro(FlaskForm):
     description=TextAreaField('Descripción', [validators.DataRequired(message='El campo es requerido')
                                                                                                      ])
     submit = SubmitField("Guardar")
+    
+
