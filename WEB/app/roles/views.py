@@ -10,9 +10,14 @@ from .models  import Role,db
 @roles.route("/Listado",methods=['GET','POST'])
 def listarol():
     role_form = Registro()
+    roles = Role.query.all()
     context = {
-        'role_form': role_form
+        'role_form': role_form,
+        'roles': roles
     }
+    
+    
+    
       
         
     return render_template("roles.html", **context)
