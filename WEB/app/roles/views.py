@@ -26,12 +26,20 @@ def registro():
         'role_form': role_form
     }
     if role_form.validate_on_submit():    
-       nombre = request.form.get('name')
+       nombre = str(request.form.get('name').upper())
+       
        descripcion = request.form.get('description')
+       #Consultamos si existe un usuario ya registrado con el email.
+       rol = Role.query.filter_by(name=nombre).first()
+       
+       if rol: #Si se encontró un usuario, redireccionamos de regreso a la página de registro
+        flash('El Rol ya existe',category='error')
+        return redirect(url_for('roles.listarol'))
+       
        newRole=Role(
        name=nombre, description=descripcion)
        db.session.add(newRole)
        db.session.commit()
-       flash('amarro')
+       flash('El rol se guardo correctamente',category='correcto')
        return redirect(url_for('roles.listarol'))        
     return render_template("roles.html", **context)
