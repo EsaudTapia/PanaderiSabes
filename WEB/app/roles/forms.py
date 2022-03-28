@@ -8,4 +8,4 @@ class Registro(FlaskForm):
                                       validators.length(min=5, max=50, message='Ingresa nombre valido')])
     description=StringField('Descripción', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=5, max=50, message='Ingresa una descripción valida')])
-    
+    submit = SubmitField("Guardar")

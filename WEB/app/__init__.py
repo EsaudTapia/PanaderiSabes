@@ -24,8 +24,7 @@ from .registro import registro
 from .nosotros import nosotros
 from .inicio import inicio
 
-
-db = SQLAlchemy()
+from .roles.models import db
 
 from .empleados.models import User
 from .roles.models import Role
