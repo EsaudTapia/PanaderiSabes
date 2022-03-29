@@ -15,11 +15,6 @@ def listarol():
         'role_form': role_form,
         'roles': roles
     }
-    
-    
-    
-      
-        
     return render_template("roles.html", **context)
 
 
@@ -42,9 +37,30 @@ def registro():
         return redirect(url_for('roles.listarol'))
        
        newRole=Role(
-       name=nombre, description=descripcion)
+       name=nombre, description=descripcion,estatus=1)
        db.session.add(newRole)
        db.session.commit()
        flash('El rol se guardo correctamente',category='correcto')
        return redirect(url_for('roles.listarol'))        
     return render_template("roles.html", **context)
+
+
+@roles.route('/delete/<id>')
+def delete(id):
+    idrol=id
+    rol=Role.query.get(id)
+    rol.estatus = 0
+    db.session.commit()    
+    flash('se elimino correctamente')
+    return redirect(url_for('roles.listarol'))
+
+@roles.route('/activate/<id>')
+def activate(id):
+    idrol=id
+    rol=Role.query.get(id)
+    rol.estatus = 1
+    db.session.commit()    
+    flash('se activo correctamente')
+    return redirect(url_for('roles.listarol'))
+
+

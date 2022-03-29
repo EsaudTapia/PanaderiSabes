@@ -14,6 +14,8 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(255))
+    estatus = db.Column(db.Boolean)
+    
     
     
     def __str__(self):
@@ -25,3 +27,6 @@ class Role(db.Model):
     
     def __str__(self):
         return self.description
+    
+    def __str__(self):
+        return self.estatus
