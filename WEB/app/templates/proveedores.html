@@ -31,7 +31,8 @@
                           <th>Razon social</th>  
                           <th>Dirección</th> 
                           <th>Telefono</th>
-                          <th>Email</th>                                                 
+                          <th>Email</th> 
+                          <th>Estatus</th>                                                 
                           <th>Acciones</th>
                       </tr>
                   </thead>
@@ -43,12 +44,13 @@
                           <td>{{td.razon}}</td>
                           <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
                           <td>{{td.telefono}}</td>
-                          <td>{{td.email}}</td>                                               
+                          <td>{{td.email}}</td>   
+                          <td>{{td.active}}</td>                                               
                           <td>
                           <div class="btn-group">
-                            <a href=""  class="btn btn-warning">Editar</a>
-                            {%if td.active%}<a href=""  class="btn btn-danger">Eliminar</a>
-                            {%else%}<a href=""  class="btn btn-success">Activar</a>
+                            <a href="{{ url_for('proveedores.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
+                            {%if td.active%}<a href="{{ url_for('proveedores.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                            {%else%}<a href="{{ url_for('proveedores.active', id=td.id) }}"  class="btn btn-success">Activar</a>
                             {%endif%}
                           </td>
                       </tr>

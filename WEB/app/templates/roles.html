@@ -36,7 +36,7 @@
                           <td>
                            
                           <div class="btn-group">
-                            <a href=""  class="btn btn-warning">Editar</a>
+                            <a href="{{ url_for('roles.update',id=td.id) }}"  class="btn btn-warning">Editar</a>
                             {% if  td.estatus == True  %}
                             
                             <a href="{{ url_for('roles.delete', id=td.id) }}"   class="btn btn-danger">Eliminar</a>

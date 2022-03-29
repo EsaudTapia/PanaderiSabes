@@ -10,5 +10,12 @@ class Registro(FlaskForm):
                                                                                                      ])
     
     submit = SubmitField("Guardar")
+ 
+ 
     
-
+class Editar(FlaskForm):    
+    name_e=StringField('Nombre', [validators.DataRequired(message='El campo es requerido'),
+                                      validators.length(min=5, max=50, message='Ingresa nombre valido')])
+    description_e=TextAreaField('Descripción', [validators.DataRequired(message='El campo es requerido')
+                                                                                                     ])
+    editar= SubmitField("Modificar")

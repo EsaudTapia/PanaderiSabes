@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %} 
+{% from '_macros.html' import render_fieldEditar %}
+{% from '_macros.html' import render_field %}
+{% from '_macros.html' import render_submit %}
+{% from '_macros.html' import render_textarea %}
+
+{% from '_macros.html' import render_fieldEditar %}
+<link rel="stylesheet" href="../../static/bootstrap/css/bootstrap.min.css">
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header"><center><h4><strong>Modificar Proveedor</strong></h4></center></div>
+            <div class="card-body">
+                <form action="{{url_for('proveedores.update_post', id=pr.id)}}" method="POST" class="form-horizontal bordered" name="form2" >          
+                    <div class="modal-body">
+                            {{ pro_form.csrf_token }}
+                            <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                            {{ render_fieldEditar(pro_form.rfc,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.razon,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.calle,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.numero,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.colonia,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.cp,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.telefono,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_fieldEditar(pro_form.email,class='form-control', fontawesome='fa fa-users') }}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{url_for('proveedores.listapro')}}" class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+                        {{ render_submit(pro_form.submit, class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<script type="text/javascript" src="../static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../static/bootstrap/js/bootstrap.min.js"></script>
+{% endblock %}
