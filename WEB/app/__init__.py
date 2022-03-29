@@ -24,7 +24,9 @@ from .registro import registro
 from .nosotros import nosotros
 from .inicio import inicio
 
+from .proveedores.models import db
 from .roles.models import db
+
 
 from .empleados.models import User
 from .roles.models import Role
