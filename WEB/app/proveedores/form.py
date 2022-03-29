@@ -17,6 +17,7 @@ class Registro(FlaskForm):
                                       validators.length(min=1, max=50, message='Ingresa nombre valido')])
     cp=IntegerField('C.P.', [validators.DataRequired(message='El campo es requerido')])
     
+    
     telefono=StringField('Telefono', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=10, max=10, message='Ingresa nombre valido')])
     email=EmailField('Email', [validators.DataRequired(message='El campo es requerido'),

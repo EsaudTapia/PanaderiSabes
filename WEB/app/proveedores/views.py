@@ -6,6 +6,7 @@ from . import proveedores
 from .models import Proveedor
 from .models import db
 
+
 @proveedores.route("/Listado")
 def listapro():
     
