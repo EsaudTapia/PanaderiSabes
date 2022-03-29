@@ -1,4 +1,5 @@
 from flask import render_template, request,session,redirect,flash,url_for
+from .forms import Editar
 from app.roles.forms import Registro
 #Importamos la clase SQLAlchemy del módulo flask_sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
@@ -69,3 +70,27 @@ def activate(id):
     return redirect(url_for('roles.listarol'))
 
 
+@roles.route("/update/<id>", methods=["GET", "POST"])
+def update(id):
+    rolesEdit= Role.query.get(id)
+    role_form_e= Editar()
+    role_form_e.name_e.data=rolesEdit.name
+    role_form_e.description_e.data=rolesEdit.description
+    context = {
+        'role_form_e': role_form_e,
+        'rolesEdit': rolesEdit
+    }
+    if request.method == 'POST':
+        rolesEdit= Role.query.get(id)
+        rolesEdit.name= request.form.get('name_e').upper()
+        rolesEdit.description= request.form.get('description_e')
+       # rolesEdit.description= role_form_e.description_e.data       
+        print(request.form.get('name_e'))
+        print(request.form.get('description_e'))    
+       
+        db.session.commit()
+       
+        flash('El rol se actualizó correctamente {}'.format(id),category='correcto')
+        return redirect(url_for('roles.listarol'))
+    else:
+        return render_template("editarRol.html", **context)
