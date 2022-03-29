@@ -33,10 +33,16 @@ def registro():
     telefono = pro_form.telefono.data
     email = pro_form.email.data
     
-    pr = Proveedor.query.filter(rfc=rfc,email=email).first()
+    pr = Proveedor.query.filter_by(rfc=rfc).first()
     
     if pr:
-        flash("El proveedor ya existe.", category='error')
+        flash("El proveedor con RFC {} ya existe.".format( pro_form.rfc.data), category='error')
+        return redirect(url_for('proveedores.listapro'))
+    
+    prc = Proveedor.query.filter_by(email=email).first()
+    
+    if prc:
+        flash("El proveedor con correo {} ya existe.".format( pro_form.email.data), category='error')
         return redirect(url_for('proveedores.listapro'))
         
     new = Proveedor(rfc=rfc,razon=razon,calle=calle,numero=numero,colonia=colonia,cp=cp,telefono=telefono,email=email,active=1)

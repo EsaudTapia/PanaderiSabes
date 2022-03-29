@@ -25,7 +25,7 @@ from .nosotros import nosotros
 from .inicio import inicio
 
 
-from .proveedores.models import db
+
 from .roles.models import db
 
 
@@ -33,7 +33,7 @@ from .empleados.models import User
 from .roles.models import Role
 
 userData = SQLAlchemyUserDatastore(db,User,Role)
-
+from .proveedores.models import db
 def create_app():
     app=Flask(__name__)
     app.config.from_object(DevelopmentConfig)
