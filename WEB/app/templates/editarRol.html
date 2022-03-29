@@ -22,7 +22,7 @@
                             {{ render_textarea(role_form_e.description_e,class='form-control')}}
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <a type="button" class="btn btn-danger" href="{{url_for('roles.listarol')}}">Cancelar</a>
                         {{ render_submit(role_form_e.editar, class="btn btn-primary") }}
                         </button>
                     </div>
