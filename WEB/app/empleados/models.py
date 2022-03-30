@@ -1,7 +1,8 @@
 from email.policy import default
-from .. import db
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
+
+db = SQLAlchemy()
 
 users_roles = db.Table('users_roles', 
                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),

@@ -1,7 +1,119 @@
 from flask import render_template,session,redirect,flash,url_for
-from app.forms import Registro
+from .forms import Registro, Editar
+from .models import User 
+from .models import users_roles
 from . import empleados
+from .models import db
+from werkzeug.security import generate_password_hash
 
 @empleados.route("/listado",methods=['GET','POST'])
 def listae():
-    return render_template("empleados.html")
+    
+    emp_form = Registro()
+    empleados = User.query.all()
+    context = {
+        'emp_form':emp_form,
+        'empleados':empleados
+    }
+    return render_template("empleados.html",**context)
+
+@empleados.route("/registro",methods=['POST'])
+def registro():
+    emp_form = Registro()
+    nombre = emp_form.nombre.data
+    apaterno = emp_form.apaterno.data
+    amaterno = emp_form.amaterno.data
+    numero = emp_form.numero.data
+    calle = emp_form.calle.data
+    colonia = emp_form.colonia.data
+    cp = emp_form.cp.data
+    telefono = emp_form.telefono.data
+    email = emp_form.email.data
+    password = emp_form.password.data
+    
+    e = User.query.filter_by(email=email).first()
+    if e:
+        flash("El empleado con correo {} ya existe.".format(email), category='error')
+        return redirect(url_for('empleados.listae'))
+    
+    new = User(nombre = nombre,
+    apaterno = apaterno,
+    amateerno = amaterno,
+    numero = numero,
+    calle = calle,
+    colonia = colonia,
+    cp = cp,
+    telefono = telefono,
+    email = email,
+    password=generate_password_hash(password,method='sha256'),
+    status = 1)
+    
+    db.session.add(new)
+    db.session.commit()
+    flash("El empleado se ha registrado.", category='correcto')
+    
+    return redirect(url_for('empleados.listae'))
+
+@empleados.route("/editar/<id>")
+def update(id):
+    emp_form = Editar()
+    
+    u = User.query.filter_by(id=id).first()
+    
+    emp_form.nombre.data = u.nombre
+    emp_form.apaterno.data = u.apaterno
+    emp_form.amaterno.data = u.amaterno
+    emp_form.calle.data = u.calle
+    emp_form.numero.data = u.numero
+    emp_form.colonia.data = u.colonia
+    emp_form.cp.data = u.cp
+    emp_form.telefono.data = u.telefono
+    emp_form.email.data = u.email
+    
+    context = {
+        'emp_form': emp_form,
+        'u':u
+    }
+    
+    return render_template("editarEmpleado.html", **context)
+
+@empleados.route("/editar/<id>", methods=['POST'])
+def update_post(id):
+    pro_form = Editar()
+    
+    u = User.query.filter_by(id=id).first()
+    
+    if pro_form.validate_on_submit():
+        
+        u.nombre = pro_form.nombre.data.upper()
+        u.apaterno = pro_form.apaterno.data
+        u.amaterno = pro_form.amaterno.data
+        u.calle = pro_form.calle.data
+        u.numero = pro_form.numero.data
+        u.colonia = pro_form.colonia.data
+        u.cp = pro_form.cp.data
+        u.telefono = pro_form.telefono.data
+        u.email = pro_form.email.data
+        
+        db.session.commit()
+        flash("El empleado se ha modificado.", category='correcto')
+    
+    return redirect(url_for('empleados.listae'))
+
+@empleados.route('/delete/<id>')
+def delete(id):
+    
+    u=User.query.filter_by(id=id).first()
+    u.active = 0
+    db.session.commit()    
+    flash('Se elimino correctamente')
+    return redirect(url_for('empleados.listae'))
+
+@empleados.route('/active/<id>')
+def active(id):
+    
+    u=User.query.filter_by(id=id).first()
+    u.active = 1
+    db.session.commit()    
+    flash('Se activó correctamente')
+    return redirect(url_for('empleados.listae'))
