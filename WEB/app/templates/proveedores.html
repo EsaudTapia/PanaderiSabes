@@ -8,6 +8,7 @@
 {% from '_macros.html' import render_field %}
 {% from '_macros.html' import render_submit %}
 {% from '_macros.html' import render_textarea %}
+{% from '_macros.html' import render_fieldBuscar %}
 
 
 <div class="row ">
@@ -23,6 +24,23 @@
               </button>
             </div>
             <div class="card-body">
+              <form action="/proveedores/listado" method="POST" class="form-horizontal bordered" name="form1" >          
+                <div class="row">
+                <div class="col-sm-4">
+                        {{ buscar_form.csrf_token }}
+                        <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                        {{ render_fieldBuscar(buscar_form.buscarRfc,class='form-control', fontawesome='fa fa-users') }}
+                  </div>
+                  <div class="col-sm-3">
+                    {{ render_submit(buscar_form.buscar, class="btn btn-primary") }}
+                  </div>
+                  <div class="col-sm-3 mr-0">
+                    <a type="button" class="btn btn-success" href="{{url_for('proveedores.listapro')}}">Regresar</a>
+                  </div>
+                  <div class="col-sm-2 mr-0">
+                  </div>
+                </div>
+            </form>
                 
                 <table class="table table-bordered table-hover table-responsive" > 
                   <thead class=' text-light thead-dark' >
@@ -31,8 +49,7 @@
                           <th>Razon social</th>  
                           <th>Dirección</th> 
                           <th>Telefono</th>
-                          <th>Email</th> 
-                          <th>Estatus</th>                                                 
+                          <th>Email</th>                                                  
                           <th>Acciones</th>
                       </tr>
                   </thead>
@@ -44,8 +61,7 @@
                           <td>{{td.razon}}</td>
                           <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
                           <td>{{td.telefono}}</td>
-                          <td>{{td.email}}</td>   
-                          <td>{{td.active}}</td>                                               
+                          <td>{{td.email}}</td>                                                 
                           <td>
                           <div class="btn-group">
                             <a href="{{ url_for('proveedores.update', id=td.id) }}"  class="btn btn-warning">Editar</a>

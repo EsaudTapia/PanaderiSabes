@@ -43,3 +43,7 @@ class Editar(FlaskForm):
     email=EmailField('Email', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=2, max=50, message='Ingresa nombre valido')])
     submit = SubmitField("Guardar")
+    
+class Buscar(FlaskForm):
+    buscarRfc= StringField('', [validators.length(min=13,max=13)])
+    buscar= SubmitField('Buscar')

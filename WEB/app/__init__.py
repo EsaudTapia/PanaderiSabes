@@ -34,6 +34,8 @@ from .roles.models import Role
 
 userData = SQLAlchemyUserDatastore(db,User,Role)
 from .proveedores.models import db
+from .insumos.models import db
+from .empleados.models import db 
 def create_app():
     app=Flask(__name__)
     app.config.from_object(DevelopmentConfig)

@@ -2,9 +2,11 @@ from operator import or_
 from flask import render_template,session,redirect,flash,url_for
 from .form import Registro
 from .form import Editar
+from .form import Buscar
 from . import proveedores
 from .models import Proveedor
 from .models import db
+
 
 
 @proveedores.route("/Listado")
@@ -12,11 +14,29 @@ def listapro():
     
     pro_form = Registro()
     pr = Proveedor.query.all()
-    
+    buscar_form= Buscar()
     context = {
         'pro_form': pro_form,
-        'proveedores': pr
+        'proveedores': pr,
+        'buscar_form':buscar_form
     }
+    return render_template("proveedores.html", **context)
+
+
+@proveedores.route('/listado',methods=['POST'])
+def buscar():
+    buscar_form= Buscar()
+    pro_form = Registro()
+    pr=[]
+    if buscar_form.validate_on_submit():
+        pr = Proveedor.query.filter_by(rfc=buscar_form.buscarRfc.data)
+    
+    context = {
+            'pro_form': pro_form,
+            'proveedores': pr,
+            'buscar_form':buscar_form
+        }
+    
     return render_template("proveedores.html", **context)
 
 
