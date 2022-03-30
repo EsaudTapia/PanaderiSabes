@@ -36,8 +36,41 @@
                       </tr>
                   </thead>
                   <tbody>
-                     
-                      
+
+                    {%for td in empleados%}
+                    <tr>
+                        <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
+                        <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
+                        <td>{{td.telefono}}</td>
+                        <td>{{td.email}}</td>   
+                        <td>Empleado</td>                                               
+                        <td>
+                        <div class="btn-group">
+                          <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
+                          {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                          {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
+                          {%endif%}
+                        </td>
+                    </tr>
+                    
+                    {%endfor%}
+                    {%for td in empleadosAdmin%}
+                    <tr>
+                        <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
+                        <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
+                        <td>{{td.telefono}}</td>
+                        <td>{{td.email}}</td>   
+                        <td>Administrador</td>                                               
+                        <td>
+                        <div class="btn-group">
+                          <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
+                          {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                          {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
+                          {%endif%}
+                        </td>
+                    </tr>
+                    
+                    {%endfor%}
                   </tbody>
               </table>
             </div>
@@ -78,6 +111,8 @@
                     {{ render_field(emp_form.telefono,class='form-control', fontawesome='fa fa-hashtag') }}
                     {{ render_field(emp_form.email,class='form-control', fontawesome='fa fa-email') }}
                     {{ render_field(emp_form.password,class='form-control', fontawesome='fa fa-email') }}
+                    {{ render_field(emp_form.comboRol,class='form-control', fontawesome='fa fa-user-tag') }}
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>

@@ -1,8 +1,9 @@
+from secrets import choice
 from wtforms import Form,IntegerField,StringField,EmailField,SelectField,RadioField,SubmitField,validators
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField,PasswordField
 from wtforms.validators import DataRequired
-
+ 
 class Registro(FlaskForm):    
     nombre=StringField('Nombre', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=1, max=50, message='Ingresa nombre valido')])
@@ -24,6 +25,12 @@ class Registro(FlaskForm):
                                       validators.length(min=1, max=100, message='Ingresa un año valido')])
     password=PasswordField('Contrseña', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=1, max=100, message='Ingresa un año valido')])
+
+    
+    comboRol= SelectField('Escoga el Rol',choices=[(1,'Administrador'),(2,'Empleado')])
+    
+
+
     enviar = SubmitField("Enviar")
     
 class Editar(FlaskForm):    

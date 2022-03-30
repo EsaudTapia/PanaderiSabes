@@ -2,7 +2,20 @@ from email.policy import default
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
 
-db = SQLAlchemy()
+
+db= SQLAlchemy()
+
+
+class Role(db.Model):
+    """User acount modal we"""
+    
+    __tablename__ = 'role'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(255))
+    estatus = db.Column(db.Boolean)
+
 
 users_roles = db.Table('users_roles', 
                        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -31,3 +44,4 @@ class User(UserMixin, db.Model):
     fechaRegistro = db.Column(db.DateTime)
     roles = db.relationship('Role', secondary=users_roles, backref=db.backref('users', lazy='dynamic'))
     
+

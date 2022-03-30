@@ -1,6 +1,6 @@
 from flask import render_template,session,redirect,flash,url_for
 from .forms import Registro, Editar
-from .models import User 
+from .models import User,Role
 from .models import users_roles
 from . import empleados
 from .models import db
@@ -10,12 +10,17 @@ from werkzeug.security import generate_password_hash
 def listae():
     
     emp_form = Registro()
-    empleados = User.query.all()
+    roleAdmin = Role.query.get(1)
+    roleEmp = Role.query.get(2)
+    empleadosAdmin= roleAdmin.users
+    empleados = roleEmp.users
     context = {
         'emp_form':emp_form,
-        'empleados':empleados
+        'empleados':empleados,
+        'empleadosAdmin':empleadosAdmin
     }
     return render_template("empleados.html",**context)
+
 
 @empleados.route("/registro",methods=['POST'])
 def registro():
@@ -30,7 +35,7 @@ def registro():
     telefono = emp_form.telefono.data
     email = emp_form.email.data
     password = emp_form.password.data
-    
+    comboRol= emp_form.comboRol.data
     e = User.query.filter_by(email=email).first()
     if e:
         flash("El empleado con correo {} ya existe.".format(email), category='error')
@@ -38,7 +43,7 @@ def registro():
     
     new = User(nombre = nombre,
     apaterno = apaterno,
-    amateerno = amaterno,
+    amaterno = amaterno,
     numero = numero,
     calle = calle,
     colonia = colonia,
@@ -47,7 +52,8 @@ def registro():
     email = email,
     password=generate_password_hash(password,method='sha256'),
     status = 1)
-    
+    default_role = Role.query.filter_by(id=comboRol).first()
+    new.roles.append(default_role)
     db.session.add(new)
     db.session.commit()
     flash("El empleado se ha registrado.", category='correcto')
@@ -104,7 +110,7 @@ def update_post(id):
 def delete(id):
     
     u=User.query.filter_by(id=id).first()
-    u.active = 0
+    u.status = 0
     db.session.commit()    
     flash('Se elimino correctamente')
     return redirect(url_for('empleados.listae'))
@@ -113,7 +119,7 @@ def delete(id):
 def active(id):
     
     u=User.query.filter_by(id=id).first()
-    u.active = 1
+    u.status = 1
     db.session.commit()    
     flash('Se activó correctamente')
     return redirect(url_for('empleados.listae'))
