@@ -22,7 +22,7 @@ def page_not_found(e):
 
 @app.route("/")
 def index():
-    return redirect(url_for('login.iniciar'))
+    return redirect(url_for('inicio.inicio'))
 
 if __name__=='__main__':
     csrf.init_app(app)

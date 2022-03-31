@@ -27,8 +27,6 @@ class Registro(FlaskForm):
                                       validators.length(min=1, max=100, message='Ingresa un año valido')])
 
     
-    comboRol= SelectField('Escoga el Rol',choices=[])
-    
 
 
     enviar = SubmitField("Enviar")

@@ -2,7 +2,6 @@ from multiprocessing import context
 from flask import render_template,session,redirect,flash,url_for,request
 from app.insumos.forms import Registro,Editar,Buscar
 from . import insumos
-from flask_sqlalchemy import SQLAlchemy
 from .models import Insumo,db
 
 @insumos.route("/Listado")

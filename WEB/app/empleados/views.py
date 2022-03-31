@@ -10,10 +10,13 @@ from werkzeug.security import generate_password_hash
 def listae():
     
     emp_form = Registro()
+    roles= Role.query.all()
     roleAdmin = Role.query.get(1)
     roleEmp = Role.query.get(2)
     empleadosAdmin= roleAdmin.users
     empleados = roleEmp.users
+    for r in roles:
+        emp_form.comboRol.choices.append((r.id,r.name))
     context = {
         'emp_form':emp_form,
         'empleados':empleados,
