@@ -11,7 +11,7 @@ def listae():
     
     emp_form = Registro()
     roles= Role.query.all()
-    roleAdmin = Role.query.get(3)
+    roleAdmin = Role.query.get(1)
     roleEmp = Role.query.get(2)
     if roleAdmin == None or roleEmp==None:
          return render_template("empleados.html",roles=False)
