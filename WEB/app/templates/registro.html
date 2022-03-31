@@ -9,7 +9,7 @@
 {% from '_macros.html' import render_submit %}
 {% from '_macros.html' import render_textarea %}
 
-
+{% if roles== False  %}
 <div class="row ">
     <div class="col-12">
         <div class="form-group">          
@@ -21,42 +21,7 @@
               
             </div>
             <div class="card-body">
-                
-                <table class="table table-bordered table-hover table-responsive" > 
-                  <thead class=' text-light thead-dark' >
-                      <tr>                         
-                          <th>Nombre completo</th> 
-                          <th>Dirección</th> 
-                          <th>Telefono</th>
-                          <th>Email</th> 
-                          <th>Rol</th>                                                 
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-
-                    {%for td in clientes%}
-                    <tr>
-                        <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
-                        <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
-                        <td>{{td.telefono}}</td>
-                        <td>{{td.email}}</td>   
-                        <td>Empleado</td>                                               
-                        <td>
-                        <div class="btn-group">
-                          {%if td.status%}<a href="{{ url_for('registro.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
-                          {%else%}<a href="{{ url_for('registro.active', id=td.id) }}"  class="btn btn-success">Activar</a>
-                          {%endif%}
-                        </td>
-                    </tr>
-                    
-                    {%endfor%}
-                  </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              Sabes
-            </div>
+                <h1 class='text-center text-danger'>No existe el rol necesario, registralo porfavor </h1>      
           </div>
 
 
@@ -67,6 +32,70 @@
         </div>
     </div>
 </div>
+</div>
+
+{% else %}
+
+<div class="row ">
+  <div class="col-12">
+      <div class="form-group">          
+        <div class="card bg-default">
+          <div  class="card-header text-light " style=' background-color:black;'>
+            <h5 class="w-50 float-left">
+              Listado
+            </h5>
+            
+          </div>
+          <div class="card-body">
+              
+              <table class="table table-bordered table-hover table-responsive" > 
+                <thead class=' text-light thead-dark' >
+                    <tr>                         
+                        <th>Nombre completo</th> 
+                        <th>Dirección</th> 
+                        <th>Telefono</th>
+                        <th>Email</th> 
+                        <th>Rol</th>                                                 
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                  {%for td in clientes%}
+                  <tr>
+                      <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
+                      <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
+                      <td>{{td.telefono}}</td>
+                      <td>{{td.email}}</td>   
+                      <td>Empleado</td>                                               
+                      <td>
+                      <div class="btn-group">
+                        {%if td.status%}<a href="{{ url_for('registro.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                        {%else%}<a href="{{ url_for('registro.active', id=td.id) }}"  class="btn btn-success">Activar</a>
+                        {%endif%}
+                      </td>
+                  </tr>
+                  
+                  {%endfor%}
+                </tbody>
+            </table>
+          </div>
+          <div class="card-footer">
+            Sabes
+          </div>
+        </div>
+
+
+         
+      </div>
+      <div class="form-group">
+      
+      </div>
+  </div>
+</div>
+
+
+{% endif %}
 
 
 {% endblock%}

@@ -13,16 +13,20 @@ def listae():
     roles= Role.query.all()
     roleAdmin = Role.query.get(1)
     roleEmp = Role.query.get(2)
-    empleadosAdmin= roleAdmin.users
-    empleados = roleEmp.users
-    for r in roles:
+    if roleAdmin == None or roleEmp==None:
+         return render_template("empleados.html",roles=False)
+    else:
+    
+     empleadosAdmin= roleAdmin.users
+     empleados = roleEmp.users
+     for r in roles:
         emp_form.comboRol.choices.append((r.id,r.name))
-    context = {
+     context = {
         'emp_form':emp_form,
         'empleados':empleados,
         'empleadosAdmin':empleadosAdmin
-    }
-    return render_template("empleados.html",**context)
+     }
+     return render_template("empleados.html",**context)
 
 
 @empleados.route("/registro",methods=['POST'])

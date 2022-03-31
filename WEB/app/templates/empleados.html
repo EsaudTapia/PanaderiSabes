@@ -8,119 +8,149 @@
 {% from '_macros.html' import render_field %}
 {% from '_macros.html' import render_submit %}
 {% from '_macros.html' import render_textarea %}
-
-
+{% if roles==False %}
 <div class="row ">
-    <div class="col-12">
-        <div class="form-group">          
-          <div class="card bg-default">
-            <div  class="card-header text-light " style=' background-color:black;'>
-              <h5 class="w-50 float-left">
-                Listado
-              </h5>
-              <button alt="Nuevo registro" type="button" class="btn btn-light btn-sm float-right" data-toggle="modal" style='border-radius: 50%;' data-target="#exampleModal">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="card-body">
-                
-                <table class="table table-bordered table-hover table-responsive" > 
-                  <thead class=' text-light thead-dark' >
-                      <tr>                         
-                          <th>Nombre completo</th> 
-                          <th>Dirección</th> 
-                          <th>Telefono</th>
-                          <th>Email</th> 
-                          <th>Rol</th>                                                 
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-
-                    {%for td in empleados%}
-                    <tr>
-                        <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
-                        <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
-                        <td>{{td.telefono}}</td>
-                        <td>{{td.email}}</td>   
-                        <td>Empleado</td>                                               
-                        <td>
-                        <div class="btn-group">
-                          <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
-                          {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
-                          {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
-                          {%endif%}
-                        </td>
-                    </tr>
-                    
-                    {%endfor%}
-                    {%for td in empleadosAdmin%}
-                    <tr>
-                        <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
-                        <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
-                        <td>{{td.telefono}}</td>
-                        <td>{{td.email}}</td>   
-                        <td>Administrador</td>                                               
-                        <td>
-                        <div class="btn-group">
-                          <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
-                          {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
-                          {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
-                          {%endif%}
-                        </td>
-                    </tr>
-                    
-                    {%endfor%}
-                  </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              Sabes
-            </div>
-          </div>
-
-
+  <div class="col-12">
+      <div class="form-group">          
+        <div class="card bg-default">
+          <div  class="card-header text-light " style=' background-color:black;'>
+            <h5 class="w-50 float-left">
+              Listado
+            </h5>
            
+          </div>
+          <div class="card-body">
+            <h3 class='text-center text-danger'>No existe el rol necesario, registralo porfavor (Empleado y Administrador) </h3>    
+              
+          </div>
+          <div class="card-footer">
+            Sabes
+          </div>
         </div>
-        <div class="form-group">
-        
+
+
+         
+      </div>
+      <div class="form-group">
+      
+      </div>
+  </div>
+</div>
+{% else %}
+<div class="row ">
+  <div class="col-12">
+      <div class="form-group">          
+        <div class="card bg-default">
+          <div  class="card-header text-light " style=' background-color:black;'>
+            <h5 class="w-50 float-left">
+              Listado
+            </h5>
+            <button alt="Nuevo registro" type="button" class="btn btn-light btn-sm float-right" data-toggle="modal" style='border-radius: 50%;' data-target="#exampleModal">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="card-body">
+              
+              <table class="table table-bordered table-hover table-responsive" > 
+                <thead class=' text-light thead-dark' >
+                    <tr>                         
+                        <th>Nombre completo</th> 
+                        <th>Dirección</th> 
+                        <th>Telefono</th>
+                        <th>Email</th> 
+                        <th>Rol</th>                                                 
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                  {%for td in empleados%}
+                  <tr>
+                      <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
+                      <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
+                      <td>{{td.telefono}}</td>
+                      <td>{{td.email}}</td>   
+                      <td>Empleado</td>                                               
+                      <td>
+                      <div class="btn-group">
+                        <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
+                        {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                        {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
+                        {%endif%}
+                      </td>
+                  </tr>
+                  
+                  {%endfor%}
+                  {%for td in empleadosAdmin%}
+                  <tr>
+                      <td>{{td.nombre + " "+ td.apaterno + " " + td.amaterno}}</td>
+                      <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
+                      <td>{{td.telefono}}</td>
+                      <td>{{td.email}}</td>   
+                      <td>Administrador</td>                                               
+                      <td>
+                      <div class="btn-group">
+                        <a href="{{ url_for('empleados.update', id=td.id) }}"  class="btn btn-warning">Editar</a>
+                        {%if td.status%}<a href="{{ url_for('empleados.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                        {%else%}<a href="{{ url_for('empleados.active', id=td.id) }}"  class="btn btn-success">Activar</a>
+                        {%endif%}
+                      </td>
+                  </tr>
+                  
+                  {%endfor%}
+                </tbody>
+            </table>
+          </div>
+          <div class="card-footer">
+            Sabes
+          </div>
         </div>
-    </div>
+
+
+         
+      </div>
+      <div class="form-group">
+      
+      </div>
+  </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header text-light " style='background-color: black;'>
-          <h5 class="modal-title" id="exampleModalLabel">Registrar empleado</h5>
-          <button type="button" class="close text-light " data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="/empleados/registro" method="POST" class="form-horizontal bordered" name="form1" >          
-            <div class="modal-body">
-                    {{ emp_form.csrf_token }}
-                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-                    {{ render_field(emp_form.nombre,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.apaterno,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.amaterno,class='form-control', fontawesome='fa fa-users') }}                    
-                    {{ render_field(emp_form.calle,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.numero,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.colonia,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.cp,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_field(emp_form.telefono,class='form-control', fontawesome='fa fa-hashtag') }}
-                    {{ render_field(emp_form.email,class='form-control', fontawesome='fa fa-email') }}
-                    {{ render_field(emp_form.password,class='form-control', fontawesome='fa fa-email') }}
-                    {{ render_field(emp_form.comboRol,class='form-control', fontawesome='fa fa-user-tag') }}
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                {{ render_submit(emp_form.enviar, class="btn btn-primary") }}
-                </button>
-            </div>
-        </form>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-light " style='background-color: black;'>
+        <h5 class="modal-title" id="exampleModalLabel">Registrar empleado</h5>
+        <button type="button" class="close text-light " data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <form action="/empleados/registro" method="POST" class="form-horizontal bordered" name="form1" >          
+          <div class="modal-body">
+                  {{ emp_form.csrf_token }}
+                  <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+                  {{ render_field(emp_form.nombre,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.apaterno,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.amaterno,class='form-control', fontawesome='fa fa-users') }}                    
+                  {{ render_field(emp_form.calle,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.numero,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.colonia,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.cp,class='form-control', fontawesome='fa fa-users') }}
+                  {{ render_field(emp_form.telefono,class='form-control', fontawesome='fa fa-hashtag') }}
+                  {{ render_field(emp_form.email,class='form-control', fontawesome='fa fa-email') }}
+                  {{ render_field(emp_form.password,class='form-control', fontawesome='fa fa-email') }}
+                  {{ render_field(emp_form.comboRol,class='form-control', fontawesome='fa fa-user-tag') }}
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              {{ render_submit(emp_form.enviar, class="btn btn-primary") }}
+              </button>
+          </div>
+      </form>
     </div>
   </div>
+</div>
+{% endif %}
+
+
 {% endblock%}

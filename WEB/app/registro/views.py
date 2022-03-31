@@ -1,4 +1,6 @@
+from gettext import NullTranslations
 from flask import render_template,session,redirect,flash,url_for
+from numpy import False_
 from app.forms import Registro
 from ..empleados.models import Role,User,db
 from . import registro
@@ -7,10 +9,15 @@ from . import registro
 def registrar():
      
     role_cliente = Role.query.get(3)
-    clientes= role_cliente.users
-    context = {
-        'clientes':clientes
-    }
+ 
+    if role_cliente == None:
+         return render_template("registro.html",roles=False)
+    else:    
+    
+     clientes= role_cliente.users
+     context = {
+         'clientes':clientes
+     }
     return render_template("registro.html",**context)
 
 
