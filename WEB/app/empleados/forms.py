@@ -27,7 +27,7 @@ class Registro(FlaskForm):
                                       validators.length(min=1, max=100, message='Ingresa un año valido')])
 
     
-    comboRol= SelectField('Escoga el Rol',choices=[])
+    comboRol= SelectField('Escoja el Rol',choices=[])
     
 
 
@@ -52,4 +52,5 @@ class Editar(FlaskForm):
                                       validators.length(min=10, max=10, message='Ingresa un año valido')])
     email=EmailField('Email', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=1, max=100, message='Ingresa un año valido')])
+    comboRol= SelectField('Escoja el Rol',choices=[])
     enviar = SubmitField("Enviar")

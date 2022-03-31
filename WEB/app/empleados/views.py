@@ -11,7 +11,7 @@ def listae():
     
     emp_form = Registro()
     roles= Role.query.all()
-    roleAdmin = Role.query.get(1)
+    roleAdmin = Role.query.get(3)
     roleEmp = Role.query.get(2)
     if roleAdmin == None or roleEmp==None:
          return render_template("empleados.html",roles=False)
@@ -20,7 +20,8 @@ def listae():
      empleadosAdmin= roleAdmin.users
      empleados = roleEmp.users
      for r in roles:
-        emp_form.comboRol.choices.append((r.id,r.name))
+         if r.name != "CLIENTE":
+            emp_form.comboRol.choices.append((r.id,r.name))
      context = {
         'emp_form':emp_form,
         'empleados':empleados,
@@ -32,9 +33,9 @@ def listae():
 @empleados.route("/registro",methods=['POST'])
 def registro():
     emp_form = Registro()
-    nombre = emp_form.nombre.data
-    apaterno = emp_form.apaterno.data
-    amaterno = emp_form.amaterno.data
+    nombre = emp_form.nombre.data.upper()
+    apaterno = emp_form.apaterno.data.upper()
+    amaterno = emp_form.amaterno.data.upper()
     numero = emp_form.numero.data
     calle = emp_form.calle.data
     colonia = emp_form.colonia.data
@@ -73,6 +74,15 @@ def update(id):
     
     u = User.query.filter_by(id=id).first()
     
+    roles = Role.query.all()
+    ro = u.roles
+    for r in ro:
+        emp_form.comboRol.choices.append((r.id,r.name))
+    for r in roles:
+        
+        if r.name != "CLIENTE":
+            emp_form.comboRol.choices.append((r.id,r.name))
+    
     emp_form.nombre.data = u.nombre
     emp_form.apaterno.data = u.apaterno
     emp_form.amaterno.data = u.amaterno
@@ -94,22 +104,30 @@ def update(id):
 def update_post(id):
     pro_form = Editar()
     
+    us = User.query.filter_by(id=id).first()
+    r = us.roles
+    roldel = Role.query.filter_by(id=r[0].id).first()
+    us.roles.remove(roldel)
+    db.session.commit()
+    
     u = User.query.filter_by(id=id).first()
     
-    if pro_form.validate_on_submit():
         
-        u.nombre = pro_form.nombre.data.upper()
-        u.apaterno = pro_form.apaterno.data
-        u.amaterno = pro_form.amaterno.data
-        u.calle = pro_form.calle.data
-        u.numero = pro_form.numero.data
-        u.colonia = pro_form.colonia.data
-        u.cp = pro_form.cp.data
-        u.telefono = pro_form.telefono.data
-        u.email = pro_form.email.data
+    u.nombre = pro_form.nombre.data.upper()
+    u.apaterno = pro_form.apaterno.data.upper()
+    u.amaterno = pro_form.amaterno.data.upper()
+    u.calle = pro_form.calle.data
+    u.numero = pro_form.numero.data
+    u.colonia = pro_form.colonia.data
+    u.cp = pro_form.cp.data
+    u.telefono = pro_form.telefono.data
+    u.email = pro_form.email.data
         
-        db.session.commit()
-        flash("El empleado se ha modificado.", category='correcto')
+        
+    default_role = Role.query.filter_by(id=pro_form.comboRol.data).first()
+    u.roles.append(default_role)
+    db.session.commit()
+    flash("El empleado se ha modificado.", category='correcto')
     
     return redirect(url_for('empleados.listae'))
 
