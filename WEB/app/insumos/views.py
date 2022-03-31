@@ -41,8 +41,7 @@ def registro():
     }
     if insumo_form.validate_on_submit():    
        nombre = str(request.form.get('name').upper())       
-       descripcion = request.form.get('description')
-       cantidad=request.form.get('cantidad')
+       descripcion = request.form.get('description')     
        precio=request.form.get('precio_compra')
        unidad=request.form.get('Unidad_medida')
        
@@ -54,12 +53,13 @@ def registro():
         return redirect(url_for('insumos.listai'))
        
        newinsumo=Insumo(
-       name=nombre, description=descripcion,cantidad=cantidad,precio_compra=precio,unidad_medida=unidad)
+       name=nombre, description=descripcion,precio_compra=precio,unidad_medida=unidad)
        db.session.add(newinsumo)
        db.session.commit()
        flash('El insumo se guardo correctamente',category='correcto')
-       return redirect(url_for('insumos.listai'))        
-    return render_template("insumos.html", **context)
+       return redirect(url_for('insumos.listai')) 
+    flash('No se pudo realizar el registro de insumo',category='error' )      
+    return redirect(url_for('insumos.listai'))  
 
 
 @insumos.route('/update/<id>', methods=['POST','GET'])
@@ -67,8 +67,7 @@ def updatein(id):
     if request.method == 'POST':
         insumo=Insumo.query.get(id)
         insumo.name = request.form.get('name') 
-        insumo.description =  request.form.get('description')
-        insumo.cantidad=request.form.get('cantidad')
+        insumo.description =  request.form.get('description')       
         insumo.precio_compra=request.form.get('precio_compra')
         insumo.unidad_medida=request.form.get('Unidad_medida')
         db.session.commit()
@@ -78,8 +77,7 @@ def updatein(id):
         insumo=Insumo.query.get(id)
         insumo_form_e = Editar()
         insumo_form_e.name.data=insumo.name
-        insumo_form_e.description.data=insumo.description
-        insumo_form_e.cantidad.data = insumo.cantidad
+        insumo_form_e.description.data=insumo.description     
         insumo_form_e.precio_compra.data= insumo.precio_compra
         insumo_form_e.Unidad_medida.data=insumo.unidad_medida
         context={

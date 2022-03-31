@@ -16,8 +16,7 @@
                             {{ insumo_form_e.csrf_token }}
                             <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                             {{ render_field(insumo_form_e.name,class='form-control', fontawesome='fa fa-users') }}
-                            {{ render_textarea(insumo_form_e.description,class='form-control')}}
-                            {{ render_field(insumo_form_e.cantidad,class='form-control') }}
+                            {{ render_textarea(insumo_form_e.description,class='form-control')}}                            
                             {{ render_field(insumo_form_e.precio_compra,class='form-control') }}
                             {{ render_field(insumo_form_e.Unidad_medida,class='form-control') }}
                     </div>

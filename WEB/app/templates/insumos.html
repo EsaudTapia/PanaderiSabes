@@ -47,7 +47,12 @@
                                         <tr>
                                             <td>{{ td.name }}</td>
                                             <td>{{ td.description }}</td>
+                                            {% if td.cantidad ==None %}
+                                            <td>0.0</td>
+                                            {% else %}
                                             <td>{{ td.cantidad }}</td>
+                                            {% endif %}
+                                            
                                             <td>$ {{ td.precio_compra }} MX</td>
                                             <td>{{ td.unidad_medida }}</td>
                                             <td>
@@ -114,8 +119,7 @@
                             {{ insumo_form.csrf_token }}
                             <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
                             {{ render_field(insumo_form.name,class='form-control', fontawesome='fa fa-users') }}
-                            {{ render_textarea(insumo_form.description,class='form-control') }}
-                            {{ render_field(insumo_form.cantidad,class='form-control') }}
+                            {{ render_textarea(insumo_form.description,class='form-control') }}                         
                             {{ render_field(insumo_form.precio_compra,class='form-control') }}
                             {{ render_field(insumo_form.Unidad_medida,class='form-control') }}
                         </div>

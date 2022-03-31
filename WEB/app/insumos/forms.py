@@ -9,8 +9,7 @@ class Registro(FlaskForm):
                                       validators.length(min=5, max=50, message='Ingresa nombre valido')])
     description=TextAreaField('Descripción', [validators.DataRequired(message='El campo es requerido')
                                                                                                      ])
-    cantidad=IntegerField('Cantidad', [validators.DataRequired(message='El campo es requerido')
-                                                                                                     ])
+    
     precio_compra=DecimalField('Precio de compra', [validators.DataRequired(message='El campo es requerido')
                                                                                                      ])
     Unidad_medida=SelectField('Unidad', choices=[("Pz.","Piezas"),("Lt","Litros"),("Kg","Kilos")])
