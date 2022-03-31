@@ -1,6 +1,5 @@
 from gettext import NullTranslations
 from flask import render_template,session,redirect,flash,url_for
-from numpy import False_
 from app.forms import Registro
 from ..empleados.models import Role,User,db
 from . import registro
