@@ -1,130 +1,131 @@
-
 {% extends "layout.html" %}
-
 {% block content %}
-<div class="alert alert-success alter-dismissable fade show" role="alert">
-  INSUMOS
-</div>
-{% from '_macros.html' import render_field %}
-{% from '_macros.html' import render_submit %}
-{% from '_macros.html' import render_textarea %}
-{% from '_macros.html' import render_fieldBuscar %} 
-
-
-<div class="row ">
-    <div class="col-12">
-        <div class="form-group">          
-          <div class="card bg-default">
-            <h5 class="card-header text-light " style=' background-color:black;'>
-              Listado
-            </h5>
-            <div class="card-body">
-              <div class="row">
-                <form action="/insumos/listado" method="POST" class="form-horizontal bordered" name="form1" >          
-                  <div class="row">
-                  <div class="col-sm-4">
-                          {{ buscar_form.csrf_token }}
-                          <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-                          {{ render_fieldBuscar(buscar_form.buscarNom,class='form-control', fontawesome='fa fa-users') }}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">INSUMOS</div>
+    {% from '_macros.html' import render_field %}
+    {% from '_macros.html' import render_submit %}
+    {% from '_macros.html' import render_textarea %}
+    {% from '_macros.html' import render_fieldBuscar %}
+    <div class="row ">
+        <div class="col-12">
+            <div class="form-group">
+                <div class="card bg-default">
+                    <h5 class="card-header text-light " style=' background-color:black;'>Listado</h5>
+                    <div class="card-body">
+                        <div class="row">
+                            <form action="/insumos/listado"
+                                  method="POST"
+                                  class="form-horizontal bordered"
+                                  name="form1">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        {{ buscar_form.csrf_token }}
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                                        {{ render_fieldBuscar(buscar_form.buscarNom,class='form-control', fontawesome='fa fa-users') }}
+                                    </div>
+                                    <div class="col-sm-3">{{ render_submit(buscar_form.buscar, class="btn btn-primary") }}</div>
+                                    <div class="col-sm-3 mr-0">
+                                        <a type="button"
+                                           class="btn btn-success"
+                                           href="{{ url_for('insumos.listai')}}">Regresar</a>
+                                    </div>
+                                    <div class="col-sm-2 mr-0"></div>
+                                </div>
+                            </form>
+                            <table class="table table-bordered table-hover table-responsive-md mx-5">
+                                <thead class=' text-light thead-dark'>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio unitario</th>
+                                        <th>Unidad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for td in insumos %}
+                                        <tr>
+                                            <td>{{ td.name }}</td>
+                                            <td>{{ td.description }}</td>
+                                            <td>{{ td.cantidad }}</td>
+                                            <td>$ {{ td.precio_compra }} MX</td>
+                                            <td>{{ td.unidad_medida }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ url_for('insumos.updatein',id=td.id)}}"
+                                                       class="btn btn-warning">Editar</a>
+                                                    {% if td.estatus %}
+                                                        <a href="{{ url_for('insumos.deletein',id=td.id)}}"
+                                                           class="btn btn-danger">Eliminars</a>
+                                                    {% else %}
+                                                        <a href="{{ url_for('insumos.activatein',id=td.id)}}"
+                                                           class="btn btn-success">Activar</a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-5"></div>
+                                <div class="col-md-2">
+                                    <button type="button"
+                                            class="btn btn-primary"
+                                            data-toggle="modal"
+                                            style='display: block;
+                                                   width: 50px;
+                                                   height: 50px;
+                                                   border-radius: 50%;'
+                                            data-target="#exampleModal">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">Sabes</div>
                     </div>
-                    <div class="col-sm-3">
-                      {{ render_submit(buscar_form.buscar, class="btn btn-primary") }}
-                    </div>
-                    <div class="col-sm-3 mr-0">
-                      <a type="button" class="btn btn-success" href="{{url_for('insumos.listai')}}">Regresar</a>
-                    </div>
-                    <div class="col-sm-2 mr-0">
-                    </div>
-                  </div>
-              </form>
-                
-                <table class="table table-bordered table-hover table-responsive-md mx-5"  > 
-                  <thead class=' text-light thead-dark' >
-                      <tr>                         
-                          <th>Nombre</th>
-                          <th>Descripcion</th>   
-                          <th>Cantidad</th> 
-                          <th>Precio unitario</th>  
-                          <th>Unidad</th>                                              
-                          <th>Acciones</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                     
-                      {%for td in insumos%}
-                      <tr>
-                          <td>{{td.name}}</td>
-                          <td>{{td.description}}</td>   
-                          <td>{{td.cantidad}}</td>
-                          <td>$ {{td.precio_compra}} MX</td>
-                          <td>{{td.unidad_medida}}</td>                                            
-                          <td>
-                          <div class="btn-group">
-                            <a href="{{url_for('insumos.updatein',id=td.id)}}"  class="btn btn-warning">Editar</a>
-                            {%if td.estatus%}
-                                <a href="{{url_for('insumos.deletein',id=td.id)}}"  class="btn btn-danger">Eliminars</a>
-                            {%else%}
-                                <a href="{{url_for('insumos.activatein',id=td.id)}}"  class="btn btn-success">Activar</a>
-                            {%endif%}
-                          </td>
-                      </tr>
-                      {%endfor%}
-                  </tbody>
-              </table>
-              </div>
-             
-              <div class="row">
-                <div class="col-md-5">
                 </div>
-                <div class="col-md-5">
-                </div>
-                <div class="col-md-2">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" style='display: block; width: 50px; height: 50px; border-radius: 50%;' data-target="#exampleModal">
-                   <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
-                </div>
-              </div>
+                <div class="form-group"></div>
             </div>
-            <div class="card-footer">
-              Sabes
-            </div>
-          </div>
-
-
-           
         </div>
-        <div class="form-group">
-        
+        <div class="modal fade"
+             id="exampleModal"
+             tabindex="-1"
+             aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-light " style='background-color: black;'>
+                        <h5 class="modal-title" id="exampleModalLabel">Registrar rol</h5>
+                        <button type="button"
+                                class="close text-light "
+                                data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/insumos/registro"
+                          method="POST"
+                          class="form-horizontal bordered"
+                          name="form1">
+                        <div class="modal-body">
+                            {{ insumo_form.csrf_token }}
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                            {{ render_field(insumo_form.name,class='form-control', fontawesome='fa fa-users') }}
+                            {{ render_textarea(insumo_form.description,class='form-control') }}
+                            {{ render_field(insumo_form.cantidad,class='form-control') }}
+                            {{ render_field(insumo_form.precio_compra,class='form-control') }}
+                            {{ render_field(insumo_form.Unidad_medida,class='form-control') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            {{ render_submit(insumo_form.submit, class="btn btn-primary") }}
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header text-light " style='background-color: black;'>
-          <h5 class="modal-title" id="exampleModalLabel">Registrar rol</h5>
-          <button type="button" class="close text-light " data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form action="/insumos/registro" method="POST" class="form-horizontal bordered" name="form1" >          
-            <div class="modal-body">
-                    {{ insumo_form.csrf_token }}
-                    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-                    {{ render_field(insumo_form.name,class='form-control', fontawesome='fa fa-users') }}
-                    {{ render_textarea(insumo_form.description,class='form-control') }}
-                    {{ render_field(insumo_form.cantidad,class='form-control') }}
-                    {{ render_field(insumo_form.precio_compra,class='form-control') }}
-                    {{ render_field(insumo_form.Unidad_medida,class='form-control') }}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                {{ render_submit(insumo_form.submit, class="btn btn-primary") }}
-                </button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
-{% endblock%}
+{% endblock %}
