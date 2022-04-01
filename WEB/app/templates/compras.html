@@ -46,7 +46,7 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="/proveedores/Listado_post"
+                            <form action="/compras/listado"
                                   method="POST"
                                   class="form-horizontal bordered"
                                   name="form1">
@@ -54,80 +54,77 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="card">
+                                                {{ formcom.csrf_token }}
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
                                                 <h5 class="card-header">Insumos</h5>
                                                 <div class="card-body">
-                                                    <form>
-                                                        <label>Proveedor:</label>
-                                                        <br>
-                                                        <select class="selectpicker"
-                                                                data-live-search="true"
-                                                                name='Motivo'
-                                                                id="txtProveedor">
-                                                            <option selected>
-                                                                Selecciona un proveedor
+                                                    <label>Proveedor:</label>
+                                                    <br>
+                                                    <select class="selectpicker"
+                                                            data-live-search="true"
+                                                            name='Motivo'
+                                                            id="txtProveedor">
+                                                        <option selected>
+                                                            Selecciona un proveedor
+                                                        </option>
+                                                        {% for proveedor in proveedores  %}
+                                                            <option value="{{ proveedor.id }}">
+                                                                {{ proveedor.razon }}
                                                             </option>
-                                                            {% for proveedor in proveedores  %}
-                                                                <option value="{{ proveedor.id }}">
-                                                                    {{ proveedor.razon }}
-                                                                </option>
-                                                            {% endfor %}
-                                                        </select>
-                                                        <br>
-                                                        <br>
-                                                        <label>Insumos:</label>
-                                                        <br>
-                                                        <div class="row">
-                                                            <div class="col-md-8">
-                                                                <select class="selectpicker"
-                                                                        data-live-search="true"
-                                                                        name='Motivo'
-                                                                        id="txtInsumos">
-                                                                  
-                                                                    {% for insumo in insumos  %}
-                                                                        <option selected value="{{ insumo.id }}">
-                                                                            {{ insumo.name }}
-                                                                        </option>
-                                                                    {% endfor %}
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-md-2">
-                                                                <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
-                                                            </div>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <br>
+                                                    <br>
+                                                    <label>Insumos:</label>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <select class="selectpicker"
+                                                                    data-live-search="true"
+                                                                    name='Motivo'
+                                                                    id="txtInsumos">
+                                                                {% for insumo in insumos  %}
+                                                                    <option selected value="{{ insumo.id }}">
+                                                                        {{ insumo.name }}
+                                                                    </option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
-                                                    </form>
-                                                </div>
-                                                <div class="card-footer">SABES</div>
+                                                        <div class="col-md-2">
+                                                            <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
+                                            <div class="card-footer">SABES</div>
                                         </div>
-                                        <div class="col-md-8">
-                                          <div class="card">
-                                            <h5 class="card-header">
-                                              Lista de productos
-                                            </h5>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card">
+                                            <h5 class="card-header">Lista de productos</h5>
                                             <div class="card-body">
-                                              <table id="ListaInsumo" class="table table-bordered table-responsive" >
-                                                <tr>
-                                                    <th hidden>id</th>
-                                                    <th >Nombre</th>
-                                                    <th >Cantidad </th>
-                                                    <th >Precio</th>                                                   
-                                                    <th >Eliminar</th>
-                                                </tr>
-                                            </table>
+                                                <form id="f" name="f">
+                                                    <table id="ListaInsumo" class="table table-bordered table-responsive">
+                                                        <tr>
+                                                            <th hidden>id</th>
+                                                            <th >Nombre</th>
+                                                            <th >Cantidad</th>
+                                                            <th >Precio</th>
+                                                            <th >Eliminar</th>
+                                                        </tr>
+                                                    </table>
+                                                    <button type="button"  onclick='guardar();' class="btn btn-success"></button>
+                                                    <div id="result" class="centrar">Aqui se mostrara el resultado</div>
+                                                </form>
                                             </div>
-                                            <div class="card-footer">
-                                              SABES
-                                            </div>
-                                          </div>
-                                          
-                                          
+                                            <div class="card-footer">SABES</div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                            {{ render_submit(formcom.guardar, class="btn btn-primary") }}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                    {{ render_submit(formcom.guardar, class="btn btn-primary") }}
-                                </button>
                             </div>
                         </form>
                     </div>

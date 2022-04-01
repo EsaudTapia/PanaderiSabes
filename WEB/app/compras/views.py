@@ -4,7 +4,7 @@ from ..insumos.models import Insumo
 from . import compras
 from .forms import RegistroCompra
 
-@compras.route("/Listado",methods=['GET','POST'])
+@compras.route("/listado",methods=['GET','POST'])
 def listaco():
     formcom= RegistroCompra()
     proveedores = Proveedor.query.all()
