@@ -1,16 +1,106 @@
 {% extends "layout.html" %}
 {% block content %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">PRODUCTOS</div>
     {% from '_macros.html' import render_field %}
-    <div class="row ">
-        <div class="col-12">
-            <div class="form-group">
-                <h3>Productos</h3>
+    {% from '_macros.html' import render_submit %}
+    {% from '_macros.html' import render_textarea %}
+    
+        <div class="row ">
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="card bg-default">
+                        <div class="card-header text-light " style=' background-color:black;'>
+                            <h5 class="w-50 float-left">Listado</h5>
+                            <button alt="Nuevo registro"
+                                    type="button"
+                                    class="btn btn-light btn-sm float-right"
+                                    data-toggle="modal"
+                                    style='border-radius: 50%;'
+                                    data-target="#exampleModal">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-hover table-responsive-sm">
+                                <thead class=' text-light thead-dark'>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Descripción</th>
+                                        <th>Precio venta</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for td in productos %}
+                                        <tr>
+                                            <td>{{ td.nombre }}</td>
+                                            <td>{{ td.descripcion }}</td>
+                                            <td>{{ td.precioVenta }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ url_for('productos.update', id=td.id) }}"
+                                                       class="btn btn-warning">Editar</a>
+                                                    {% if td.status %}
+                                                        <a href="{{ url_for('productos.delete', id=td.id) }}"
+                                                           class="btn btn-danger">Eliminar</a>
+                                                    {% else %}
+                                                        <a href="{{ url_for('productos.active', id=td.id) }}"
+                                                           class="btn btn-success">Activar</a>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="card-footer">
+                                    Sabes
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade"
+                     id="exampleModal"
+                     tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header text-light " style='background-color: black;'>
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    Registrar producto
+                                </h5>
+                                <button type="button"
+                                        class="close text-light "
+                                        data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="/productos/registro"
+                                  method="POST"
+                                  class="form-horizontal bordered"
+                                  name="form1">
+                                <div class="modal-body">
+                                    {{ pro_form.csrf_token }}
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                                    {{ render_field(pro_form.nombre,class='form-control', fontawesome='fa fa-users') }}
+                                    {{ render_field(pro_form.descripcion,class='form-control', fontawesome='fa fa-users') }}
+                                    {{ render_field(pro_form.precio,class='form-control', fontawesome='fa fa-users') }}
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    {{ render_submit(pro_form.enviar, class="btn btn-primary") }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <p>
-                    Productos sesnuales
-                </p>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+    {% endblock %}
