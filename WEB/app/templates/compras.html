@@ -91,7 +91,7 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-md-2">
-                                                                <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
+                                                              
                                                             </div>
                                                         </div>
                                                     </form>
@@ -105,15 +105,23 @@
                                               Lista de productos
                                             </h5>
                                             <div class="card-body">
+                                            <form id="f" name="f">
                                               <table id="ListaInsumo" class="table table-bordered table-responsive" >
                                                 <tr>
-                                                    <th hidden>id</th>
+                                                    <th >id</th>
                                                     <th >Nombre</th>
                                                     <th >Cantidad </th>
                                                     <th >Precio</th>                                                   
                                                     <th >Eliminar</th>
                                                 </tr>
                                             </table>
+
+                                            <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
+                                            <button type="button"  onclick='guardar();' class="btn btn-success"></button>
+                                            <div id="result" class="centrar">
+                                                Aqui se mostrara el resultado
+                                            </div>
+                                        </form>
                                             </div>
                                             <div class="card-footer">
                                               SABES
