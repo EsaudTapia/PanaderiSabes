@@ -27,6 +27,8 @@
                                         <th>Nombre</th>
                                         <th>Descripción</th>
                                         <th>Precio venta</th>
+                                        <th>Cantidad</th>
+                                        <th>Imagen</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -36,6 +38,9 @@
                                             <td>{{ td.nombre }}</td>
                                             <td>{{ td.descripcion }}</td>
                                             <td>{{ td.precioVenta }}</td>
+                                            <td>{{ td.cantidadPr }}</td>
+                                            <td><img src="../static/img/img{{td.id}}.jpg" style="object-fit: cover;" width="50" hight="50" 
+                                                title="{{td.nombre}}"></td>
                                             <td>
                                                 <div class="btn-group">
                                                     <a href="{{ url_for('productos.update', id=td.id) }}"
@@ -47,6 +52,10 @@
                                                         <a href="{{ url_for('productos.active', id=td.id) }}"
                                                            class="btn btn-success">Activar</a>
                                                     {% endif %}
+                                                    <a href="{{ url_for('productos.proin', id=td.id) }}"
+                                                       class="btn btn-info">Insumos</a>
+                                                       <a href="{{ url_for('productos.producir', id=td.id) }}"
+                                                       class="btn btn-primary">Producir</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -83,13 +92,14 @@
                             <form action="/productos/registro"
                                   method="POST"
                                   class="form-horizontal bordered"
-                                  name="form1">
+                                  name="form1" enctype="multipart/form-data">
                                 <div class="modal-body">
                                     {{ pro_form.csrf_token }}
                                     <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
                                     {{ render_field(pro_form.nombre,class='form-control', fontawesome='fa fa-users') }}
                                     {{ render_field(pro_form.descripcion,class='form-control', fontawesome='fa fa-users') }}
                                     {{ render_field(pro_form.precio,class='form-control', fontawesome='fa fa-users') }}
+                                    <input  required class="form_control" name="imagen" type="file" placeholder="">
                                     
                                 </div>
                                 <div class="modal-footer">

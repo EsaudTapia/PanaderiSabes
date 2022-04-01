@@ -15,14 +15,14 @@
         <div class="card">
             <div class="card-header"><center><h4><strong>Modificar Producto</strong></h4></center></div>
             <div class="card-body">
-                <form action="{{url_for('productos.update_post', id=p.id)}}" method="POST" class="form-horizontal bordered" name="form1" >          
+                <form action="{{url_for('productos.update_post', id=p.id)}}" enctype="multipart/form-data" method="POST" class="form-horizontal bordered" name="form1" >          
                     <div class="modal-body">
                             {{ pro_form.csrf_token }}
                             <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                             {{ render_field(pro_form.nombre,class='form-control', fontawesome='fa fa-users') }}
                             {{ render_field(pro_form.descripcion,class='form-control', fontawesome='fa fa-users') }}
                             {{ render_field(pro_form.precio,class='form-control', fontawesome='fa fa-users') }}
-        
+                            <input class="form_control" name="imagen" type="file" placeholder="">
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-danger" href="{{url_for('productos.listapr')}}">Cancelar</a>
