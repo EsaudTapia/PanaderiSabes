@@ -1,6 +1,6 @@
-var num_campos = 5;
+var num_campos = 4;
 var inputnum = [];
-var insumos = [];
+var insumo = [];
 var venta = new Object();
 venta.mercancias = [];
 
@@ -53,8 +53,16 @@ function guardar() {
             cont = 0;
         }
     }
-    console.log(productos); //productos es un array que contiene n arrays (n productos)
-    a = JSON.stringify(productos)
+
+    agregarinsumo(productos);
+
+}
+
+function agregarinsumo(productos) {
+
+    insumo = productos.slice();
+    a = JSON.stringify(insumo)
+
     alert(a)
 }
 
