@@ -7,7 +7,7 @@ function nuevoPro() {
 
     //alert("nuevo")
     $("#ListaInsumo").append("<tr>" +
-        "<td ><input id='txtId" + num + "'  name='Idinsumo[]' type='text' size='15'   required/></td>" +
+        "<td hidden><input id='txtId" + num + "'  name='Idinsumo[]' type='text' size='15'   required/></td>" +
         "<td><input id='txtIns" + num + "' name='insumo[]'   type='text' size='15' placeholder='Ingresa Marca' required/></td>" +
         "<td><input name='cantinsumo[]' type='Number' size='10'  required/></td>" +
         "<td><input name='precioins[]' type='number' size='10' placeholder='Ingresa precio unitario' required/></td>" +
