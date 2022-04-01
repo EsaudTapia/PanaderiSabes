@@ -1,5 +1,10 @@
 var num_campos = 5;
 var inputnum = [];
+var insumos = [];
+var venta = new Object();
+venta.mercancias = [];
+
+
 
 function nuevoPro() {
     num = 1 + inputnum.length
