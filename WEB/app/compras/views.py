@@ -17,3 +17,17 @@ def listaco():
      }
     
     return render_template("compras.html",**context)
+
+
+@compras.route("/registrarCompra",methods=['GET','POST'])
+def registrar():
+    formcom= RegistroCompra()
+   
+   
+    if formcom.validate_on_submit():
+      flash("Seamorra.", category='correcto')
+      return redirect(url_for('compras.listaco'))
+  
+  
+    flash('no amarra',category='error')
+    return redirect(url_for('compras.listaco'))

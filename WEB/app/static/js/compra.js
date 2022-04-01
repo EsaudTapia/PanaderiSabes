@@ -2,7 +2,7 @@ var num_campos = 4;
 var inputnum = [];
 var insumo = [];
 var venta = new Object();
-venta.mercancias = [];
+venta.insumo = [];
 
 
 
@@ -60,8 +60,10 @@ function guardar() {
 
 function agregarinsumo(productos) {
 
-    insumo = productos.slice();
-    a = JSON.stringify(insumo)
+    venta.insumo = productos;
+    venta.proveedor = $("#txtProveedor").val();
+    venta.Empleado = 1;
+    a = JSON.stringify(venta)
 
     alert(a)
 }
