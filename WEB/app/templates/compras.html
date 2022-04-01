@@ -30,12 +30,12 @@
                         <div class="form-group"></div>
                     </div>
                 </div>
-                <div class="modal fade exampleModal-lg"
+                <div class="modal fade exampleModal-xl"
                      id="exampleModal"
                      tabindex="-1"
                      aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header text-light " style='background-color: black;'>
                                 <h5 class="modal-title" id="exampleModalLabel">Registrar rol</h5>
@@ -52,7 +52,7 @@
                                   name="form1">
                                 <div class="modal-body">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <div class="card">
                                                 <h5 class="card-header">Insumos</h5>
                                                 <div class="card-body">
@@ -71,48 +71,74 @@
                                                                     {{ proveedor.razon }}
                                                                 </option>
                                                             {% endfor %}
-                                                          </select>
-
-                                                            <br>
-                                                            <br>
-                                                            <label>Insumos:</label>
-                                                            <br>
-                                                            <select class="selectpicker"
-                                                                    data-live-search="true"
-                                                                    name='Motivo'
-                                                                    id="txtInsumos">
-                                                                <option selected>
-                                                                    Selecciona un proveedor
-                                                                </option>
-                                                                {% for insumo in insumos  %}
-                                                                    <option value="{{ insumo.id }}">
-                                                                        {{ insumo.name }}
-                                                                    </option>
-                                                                {% endfor %}
-                                                                  </select>
-                                                        </form>
-                                                    </div>
-                                                    <div class="card-footer">SABES</div>
+                                                        </select>
+                                                        <br>
+                                                        <br>
+                                                        <label>Insumos:</label>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md-8">
+                                                                <select class="selectpicker"
+                                                                        data-live-search="true"
+                                                                        name='Motivo'
+                                                                        id="txtInsumos">
+                                                                  
+                                                                    {% for insumo in insumos  %}
+                                                                        <option selected value="{{ insumo.id }}">
+                                                                            {{ insumo.name }}
+                                                                        </option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
+                                                <div class="card-footer">SABES</div>
                                             </div>
-                                            <div class="col-md-7">set</div>
+                                        </div>
+                                        <div class="col-md-8">
+                                          <div class="card">
+                                            <h5 class="card-header">
+                                              Lista de productos
+                                            </h5>
+                                            <div class="card-body">
+                                              <table id="ListaInsumo" class="table table-bordered table-responsive" >
+                                                <tr>
+                                                    <th hidden>id</th>
+                                                    <th >Nombre</th>
+                                                    <th >Cantidad </th>
+                                                    <th >Precio</th>                                                   
+                                                    <th >Eliminar</th>
+                                                </tr>
+                                            </table>
+                                            </div>
+                                            <div class="card-footer">
+                                              SABES
+                                            </div>
+                                          </div>
+                                          
+                                          
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                        {{ render_submit(formcom.guardar, class="btn btn-primary") }}
-                                    </button>
                                 </div>
-                            </form>
-                        </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    {{ render_submit(formcom.guardar, class="btn btn-primary") }}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="form-group">
-                <p>
-                    Compras
-                </p>
-            </div>
+        </div>
+        <div class="form-group">
+            <p>
+                Compras
+            </p>
         </div>
     </div>
+</div>
 {% endblock %}
