@@ -1,13 +1,13 @@
 from flask import render_template,session,redirect,flash,url_for
-from .models import Producto
 from .forms import Registro
-from .models import Merma
+from ..models import Merma,Producto
 from datetime import datetime
 from . import mermas
-
-from .models import db
+from flask_security import login_required,roles_required ,current_user
+from .. import db
 
 @mermas.route("/Listado",methods=['GET','POST'])
+@login_required
 def listam():
     
     me_form = Registro()
@@ -27,6 +27,7 @@ def listam():
     return render_template("mermas.html",**context)
 
 @mermas.route("/listam_post",methods=['POST'])
+@login_required
 def listam_post():
     
     me_form = Registro()

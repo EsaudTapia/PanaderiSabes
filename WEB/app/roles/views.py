@@ -4,11 +4,13 @@ from app.roles.forms import Registro
 #Importamos la clase SQLAlchemy del módulo flask_sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from . import roles
-
-from .models  import Role,db
+from flask_security import login_required,roles_required ,current_user
+from ..models  import Role
+from .. import db
 
 
 @roles.route("/Listado",methods=['GET','POST'])
+@login_required
 def listarol():
     role_form = Registro()
     roles = Role.query.all()
@@ -21,6 +23,7 @@ def listarol():
 
 
 @roles.route("/registro",methods=['GET','POST'])
+@login_required
 def registro():
     role_form = Registro()
     context = {
@@ -47,6 +50,7 @@ def registro():
 
 
 @roles.route('/delete/<id>')
+@login_required
 def delete(id):
     idrol=id
     rol=Role.query.get(id)
@@ -56,6 +60,7 @@ def delete(id):
     return redirect(url_for('roles.listarol'))
 
 @roles.route('/activate/<id>')
+@login_required
 def activate(id):
     idrol=id
     rol=Role.query.get(id)
@@ -66,6 +71,7 @@ def activate(id):
 
 
 @roles.route("/update/<id>", methods=["GET", "POST"])
+@login_required
 def update(id):
     rolesEdit= Role.query.get(id)
     role_form_e= Editar()

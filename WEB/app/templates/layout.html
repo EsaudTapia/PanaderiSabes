@@ -37,25 +37,38 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="{{url_for('inicio.inicio')}}" style="color:#ffffff;">Inicio</a>
-                    <a class="nav-item nav-link active" href="{{url_for('login.iniciar')}}" style="color:#ffffff;">Login
-                        <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="{{url_for('clientes.registroc')}}"
-                        style="color:#ffffff;">Registrate</a>
-                    <a class="nav-item nav-link" href="{{url_for('compras.listaco')}}"
-                        style="color:#ffffff;">Compras</a>
-                    <a class="nav-item nav-link" href="{{url_for('empleados.listae')}}"
-                        style="color:#ffffff;">Empleados</a>
-                    <a class="nav-item nav-link" href="{{url_for('insumos.listai')}}" style="color:#ffffff;">Insumos</a>
-                    <a class="nav-item nav-link" href="{{url_for('mermas.listam')}}" style="color:#ffffff;">Mermas</a>
-                    <a class="nav-item nav-link" href="{{url_for('pedidos.listape')}}" style="color:#ffffff;">Pedidos</a>
-                    <a class="nav-item nav-link" href="{{url_for('productos.listapr')}}" style="color:#ffffff;">Productos</a>
-                    <a class="nav-item nav-link" href="{{url_for('productos.listaprcl')}}" style="color:#ffffff;">Productos</a>
-                    <a class="nav-item nav-link" href="{{url_for('proveedores.listapro')}}" style="color:#ffffff;">Proveedores</a>
-                    <a class="nav-item nav-link" href="{{url_for('roles.listarol')}}" style="color:#ffffff;">Roles</a>
-                    <a class="nav-item nav-link" href="{{url_for('ventas.listav')}}" style="color:#ffffff;">Ventas</a>
-                    <a class="nav-item nav-link" href="{{url_for('registro.registrar')}}" style="color:#ffffff;">Clientes</a>
-                    <a class="nav-item nav-link" href="{{url_for('ventas.listavcl')}}" style="color:#ffffff;">Ventas</a>
-                    <a class="nav-item nav-link" href="{{url_for('nosotros.info')}}" style="color:#ffffff;">Nosotros</a>
+                    {%if not current_user.is_authenticated%}
+                        <a class="nav-item nav-link active" href="{{url_for('login.iniciar')}}" style="color:#ffffff;">Login<span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" href="{{url_for('clientes.registroc')}}" style="color:#ffffff;">Registrate</a>
+                        <a class="nav-item nav-link" href="{{url_for('nosotros.info')}}" style="color:#ffffff;">Nosotros</a>
+                    {%endif%}
+                    {%if current_user.is_authenticated and (current_user.roles[0].name== 'ADMINISTRADOR' or current_user.roles[0].name=='EMPLEADO')%}
+                        <a class="nav-item nav-link" href="{{url_for('compras.listaco')}}" style="color:#ffffff;">Compras</a>
+                        <a class="nav-item nav-link" href="{{url_for('insumos.listai')}}" style="color:#ffffff;">Insumos</a>
+                        <a class="nav-item nav-link" href="{{url_for('mermas.listam')}}" style="color:#ffffff;">Mermas</a>
+                        <a class="nav-item nav-link" href="{{url_for('productos.listapr')}}" style="color:#ffffff;">Productos</a>
+                        <a class="nav-item nav-link" href="{{url_for('proveedores.listapro')}}" style="color:#ffffff;">Proveedores</a>
+                        <a class="nav-item nav-link" href="{{url_for('ventas.listav')}}" style="color:#ffffff;">Ventas</a>
+                    {%endif%}
+
+                    {%if current_user.is_authenticated and current_user.roles[0].name== 'ADMINISTRADOR'%}
+                        <a class="nav-item nav-link" href="{{url_for('empleados.listae')}}" style="color:#ffffff;">Empleados</a>                    
+                        <a class="nav-item nav-link" href="{{url_for('roles.listarol')}}" style="color:#ffffff;">Roles</a>                   
+                        <a class="nav-item nav-link" href="{{url_for('registro.registrar')}}" style="color:#ffffff;">Clientes</a>
+                    {%endif%}
+
+                    {% if  current_user.is_authenticated and (current_user.roles[0].name =='ADMINISTRADOR' or current_user.roles[0].name =='CLIENTE' or current_user.roles[0].name =='EMPLEADO')%}
+                        <a class="nav-item nav-link" href="{{url_for('productos.listaprcl')}}" style="color:#ffffff;">Nuestros Productos</a>
+                        <a class="nav-item nav-link" href="{{url_for('nosotros.info')}}" style="color:#ffffff;">Nosotros</a>
+                        <a class="nav-item nav-link" href="{{ url_for('login.logout') }}" style="color:#ffffff; class="navbar-item"> Cerrar Sesión</a>
+                    {% endif %}
+
+
+                    
+                    
+                    
+                    
+                    
                 </div>
             </div>
         </nav>

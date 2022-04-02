@@ -61,7 +61,7 @@
                                                 <div class="btn-group">
                                                     <a href="{{ url_for('empleados.update', id=td.id) }}"
                                                        class="btn btn-warning">Editar</a>
-                                                    {% if td.status %}
+                                                    {% if td.active %}
                                                         <a href="{{ url_for('empleados.delete', id=td.id) }}"
                                                            class="btn btn-danger">Eliminar</a>
                                                     {% else %}
@@ -82,7 +82,7 @@
                                                     <div class="btn-group">
                                                         <a href="{{ url_for('empleados.update', id=td.id) }}"
                                                            class="btn btn-warning">Editar</a>
-                                                        {% if td.status %}
+                                                        {% if td.active %}
                                                             <a href="{{ url_for('empleados.delete', id=td.id) }}"
                                                                class="btn btn-danger">Eliminar</a>
                                                         {% else %}

@@ -67,10 +67,10 @@
                       <td>{{td.calle + " "+ td.numero+ ", " + td.colonia}}. {{td.cp}}</td>
                       <td>{{td.telefono}}</td>
                       <td>{{td.email}}</td>   
-                      <td>Empleado</td>                                               
+                      <td>Cliente</td>                                               
                       <td>
                       <div class="btn-group">
-                        {%if td.status%}<a href="{{ url_for('registro.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
+                        {%if td.active%}<a href="{{ url_for('registro.delete', id=td.id) }}"  class="btn btn-danger">Eliminar</a>
                         {%else%}<a href="{{ url_for('registro.active', id=td.id) }}"  class="btn btn-success">Activar</a>
                         {%endif%}
                       </td>

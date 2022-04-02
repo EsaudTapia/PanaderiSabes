@@ -2,16 +2,15 @@ import os
 from werkzeug.utils import secure_filename
 from flask import render_template,session,redirect,flash,url_for,request
 from .forms import Registro, Editar, InsumosAdd, Producir, AddCart, AddVenta
-from .models import Producto
-from .models import Insumo
-from .models import Receta
-from .models import Venta
-from .models import DetalleVenta
-from .models import db
+from ..models import Producto,Insumo,Receta,Venta,DetalleVenta
+from .. import db
 from . import productos
 from datetime import datetime
+from flask_security import login_required,roles_required ,current_user
+
 
 @productos.route("/Listado",methods=['GET','POST'])
+@login_required
 def listapr():
     
     pro_form = Registro()
@@ -27,6 +26,7 @@ def listapr():
 lista = []
 
 @productos.route("/productos",methods=['GET'])
+@login_required
 def listaprcl():
     
     productos = Producto.query.all()
@@ -47,6 +47,7 @@ def listaprcl():
     return render_template("productos-cliente.html",**context)
 
 @productos.route("/productosventa", methods=['POST'])
+@login_required
 def venta():
     d = AddVenta()
     hoy = datetime.today()
@@ -67,6 +68,7 @@ def venta():
     return redirect(url_for("productos.listaprcl"))
 
 @productos.route("/productoscart", methods=['POST'])
+@login_required
 def cart():
     produ_form = AddCart()
     
@@ -88,6 +90,7 @@ def cart():
     return redirect(url_for("productos.listaprcl"))
 
 @productos.route("/registro", methods=['POST'])
+@login_required
 def registro():
     pro_form = Registro()
     nombre = pro_form.nombre.data.upper()
@@ -121,6 +124,7 @@ def registro():
     return redirect(url_for('productos.listapr'))
 
 @productos.route("/editar/<id>")
+@login_required
 def update(id):
     pro_form = Editar()
     
@@ -138,6 +142,7 @@ def update(id):
     return render_template("editarProducto.html", **context)
 
 @productos.route("/editar/<id>", methods=['POST'])
+@login_required
 def update_post(id):
     pro_form = Editar()
     
@@ -170,6 +175,7 @@ def update_post(id):
 
 
 @productos.route('/delete/<id>')
+@login_required
 def delete(id):
     
     p=Producto.query.filter_by(id=id).first()
@@ -179,6 +185,7 @@ def delete(id):
     return redirect(url_for('productos.listapr'))
 
 @productos.route('/active/<id>')
+@login_required
 def active(id):
     
     p=Producto.query.filter_by(id=id).first()
@@ -188,6 +195,7 @@ def active(id):
     return redirect(url_for('productos.listapr'))
 
 @productos.route('/producto-insumo/<id>')
+@login_required
 def proin(id):
     
     insumo_form = InsumosAdd()
@@ -213,6 +221,7 @@ def proin(id):
 
 
 @productos.route('/producto-insumo/<id>', methods=['POST'])
+@login_required
 def proin_post(id):
     
     insumo_form = InsumosAdd()
@@ -257,6 +266,7 @@ def proin_post(id):
     return redirect(url_for('productos.proin', id=id))
 
 @productos.route('/delproducto-insumo/<id>')
+@login_required
 def borrar(id):
 
     re = Receta.query.filter_by(id_r=id).first()
@@ -269,6 +279,7 @@ def borrar(id):
 
 
 @productos.route('/producir/<id>')
+@login_required
 def producir(id):
     
     prod_form = Producir()
@@ -279,6 +290,7 @@ def producir(id):
     return render_template("producto-producir.html", **context)
 
 @productos.route('/producir/<id>', methods=['POST'])
+@login_required
 def producir_post(id):
     
     prod_form = Producir()

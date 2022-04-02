@@ -1,12 +1,14 @@
 from flask import render_template,session,redirect,flash,url_for
 from .forms import Registro, Editar
-from .models import User,Role
-from .models import users_roles
+from ..models import User,Role
 from . import empleados
-from .models import db
+from .. import db
 from werkzeug.security import generate_password_hash
+from flask_security import login_required,roles_required ,current_user
 
 @empleados.route("/listado",methods=['GET','POST'])
+@login_required
+@roles_required('ADMINISTRADOR')
 def listae():
     
     emp_form = Registro()
@@ -31,6 +33,8 @@ def listae():
 
 
 @empleados.route("/registro",methods=['POST'])
+@login_required
+@roles_required('ADMINISTRADOR')
 def registro():
     emp_form = Registro()
     nombre = emp_form.nombre.data.upper()
@@ -59,7 +63,8 @@ def registro():
     telefono = telefono,
     email = email,
     password=generate_password_hash(password,method='sha256'),
-    status = 1)
+    status = 1,
+    active=1)
     default_role = Role.query.filter_by(id=comboRol).first()
     new.roles.append(default_role)
     db.session.add(new)
@@ -69,6 +74,8 @@ def registro():
     return redirect(url_for('empleados.listae'))
 
 @empleados.route("/editar/<id>")
+@login_required
+@roles_required('ADMINISTRADOR')
 def update(id):
     emp_form = Editar()
     
@@ -101,6 +108,8 @@ def update(id):
     return render_template("editarEmpleado.html", **context)
 
 @empleados.route("/editar/<id>", methods=['POST'])
+@login_required
+@roles_required('ADMINISTRADOR')
 def update_post(id):
     pro_form = Editar()
     
@@ -132,19 +141,23 @@ def update_post(id):
     return redirect(url_for('empleados.listae'))
 
 @empleados.route('/delete/<id>')
+@login_required
+@roles_required('ADMINISTRADOR')
 def delete(id):
     
     u=User.query.filter_by(id=id).first()
-    u.status = 0
+    u.active = 0
     db.session.commit()    
     flash('Se elimino correctamente')
     return redirect(url_for('empleados.listae'))
 
 @empleados.route('/active/<id>')
+@login_required
+@roles_required('ADMINISTRADOR')
 def active(id):
     
     u=User.query.filter_by(id=id).first()
-    u.status = 1
+    u.active = 1
     db.session.commit()    
     flash('Se activó correctamente')
     return redirect(url_for('empleados.listae'))

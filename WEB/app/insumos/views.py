@@ -2,10 +2,12 @@ from multiprocessing import context
 from flask import render_template,session,redirect,flash,url_for,request
 from app.insumos.forms import Registro,Editar,Buscar
 from . import insumos
-from .models import Insumo
-from .models import db
+from ..models import Insumo
+from .. import db
+from flask_security import login_required,roles_required ,current_user
 
 @insumos.route("/Listado")
+@login_required
 def listai():
     insumo_form = Registro()
     insumos= Insumo.query.all()
@@ -19,6 +21,7 @@ def listai():
 
 
 @insumos.route('/listado',methods=['POST'])
+@login_required
 def buscar():
     buscar_form= Buscar()
     ins_form = Registro()
@@ -35,6 +38,7 @@ def buscar():
 
 
 @insumos.route("/registro",methods=['GET','POST'])
+@login_required
 def registro():
     insumo_form = Registro()
     context = {
@@ -64,6 +68,7 @@ def registro():
 
 
 @insumos.route('/update/<id>', methods=['POST','GET'])
+@login_required
 def updatein(id):
     if request.method == 'POST':
         insumo=Insumo.query.get(id)
@@ -86,6 +91,7 @@ def updatein(id):
         return render_template('actualizarinsumo.html',**context)
     
 @insumos.route('/delete/<id>', methods=['POST','GET'])
+@login_required
 def deletein(id):
     insumo=Insumo.query.get(id)
     insumo.estatus=0
@@ -94,6 +100,7 @@ def deletein(id):
     return redirect(url_for('insumos.listai'))
 
 @insumos.route('/activate/<id>', methods=['POST','GET'])
+@login_required
 def activatein(id):
     insumo=Insumo.query.get(id)
     insumo.estatus=1

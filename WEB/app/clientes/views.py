@@ -1,7 +1,9 @@
 from flask import render_template,session,redirect,flash,url_for
 from  .forms import Registro
 from . import clientes
-from ..empleados.models import User,Role,db
+from ..models import User,Role
+from .. import db
+from flask_security import login_required,roles_required ,current_user
 from werkzeug.security import generate_password_hash
 
 """@clientes.route("/listadoclientes",methods=['GET','POST'])
@@ -9,6 +11,8 @@ def listac():
     return render_template("clientes.html")"""
 
 @clientes.route("/registrocliente",methods=['GET','POST'])
+@login_required
+@roles_required('ADMINISTRADOR')
 def registroc():
     cl_form = Registro()
     context={

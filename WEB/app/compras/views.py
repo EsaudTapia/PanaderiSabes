@@ -1,16 +1,14 @@
 from datetime import datetime
 from flask import render_template, request,session,redirect,flash,url_for
 from sqlalchemy import desc
-from ..proveedores.models import Proveedor
-from ..insumos.models import Insumo
+from ..models import Insumo,Proveedor,DetalleCompra,compra as comprasl,Insumo
 from . import compras
 from .forms import AddCart, Addinsumo, RegistroCompra
-from .models import Insumo
-from .models import compra as comprasl
-from .models import DetalleCompra
-from .models import db
+from .. import db
+from flask_security import login_required,roles_required ,current_user
 
 @compras.route("/listado",methods=['GET','POST'])
+@login_required
 def listaco():
     formcom= RegistroCompra()
     d= Addinsumo()
@@ -33,6 +31,7 @@ lista = []
 
 
 @compras.route("/insumoscart", methods=['POST'])
+@login_required
 def cart():
     produ_form = AddCart()
     
@@ -63,6 +62,7 @@ def cart():
 
 
 @compras.route("/insumos",methods=['GET'])
+@login_required
 def listacom():
     proveedores = Proveedor.query.all()
     insumos = Insumo.query.all()
@@ -88,11 +88,12 @@ def listacom():
 
 
 @compras.route("/insumocompra", methods=['POST'])
+@login_required
 def compra():
     d = Addinsumo()
     hoy = datetime.today()
     
-    em=1
+    em=current_user.id
     
     compra = comprasl(id_em=em,id_provee=lista[0]['proveedor'],total=d.total.data,status="Realizado",fechaRegistro=hoy)
    
@@ -109,6 +110,8 @@ def compra():
     
     for i in lista:
         ins= Insumo.query.get(i['id'])
+        ins.precio_compra = i['precio']
+        print(ins.precio_compra)
         if ins.unidad_medida == 'Pz':
           ins.cantidad += i['cantidad']
           

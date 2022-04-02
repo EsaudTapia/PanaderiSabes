@@ -1,44 +1,19 @@
 import imp
-from flask import Flask
-
 from .config import DevelopmentConfig
-from .site import site
-from .login import login
-from .clientes import clientes
-from .compras import compras
-
 import os
 from flask import  Flask
 from flask_security import Security, SQLAlchemyUserDatastore
 from flask_sqlalchemy import SQLAlchemy
+from flask import render_template
 
-from .empleados import empleados
-from .insumos import insumos
-from .mermas import mermas
-from .pedidos import pedidos
-from .productos import productos
-from .proveedores import proveedores
-from .roles import roles
-from .ventas import ventas
-from .registro import registro
-from .nosotros import nosotros
-from .inicio import inicio
+db = SQLAlchemy()
 
 
-
-from .roles.models import db
-
-
-from .empleados.models import User
-from .roles.models import Role
+from .models import User
+from .models import Role
 
 userData = SQLAlchemyUserDatastore(db,User,Role)
-from .proveedores.models import db
-from .insumos.models import db
-from .empleados.models import db 
-from .productos.models import db 
-from .mermas.models import db 
-from .ventas.models import db 
+
 def create_app():
     app=Flask(__name__)
     app.config.from_object(DevelopmentConfig)
@@ -48,12 +23,33 @@ def create_app():
     @app.before_first_request
     def create_all():
         db.create_all()
-        
+    from .login.forms import Registro
+    @app.route('/login')
+    def login():
+        form_login = Registro()
+        context={
+            'form_login':form_login
+        }
+        return render_template("login.html",**context)
         
     security = Security(app, userData)
     
     
-    app.register_blueprint(site)
+    from .login import login
+    from .clientes import clientes
+    from .compras import compras
+    from .empleados import empleados
+    from .insumos import insumos
+    from .mermas import mermas
+    from .pedidos import pedidos
+    from .productos import productos
+    from .proveedores import proveedores
+    from .roles import roles
+    from .ventas import ventas
+    from .registro import registro
+    from .nosotros import nosotros
+    from .inicio import inicio
+    
     app.register_blueprint(login)
     app.register_blueprint(clientes)
     app.register_blueprint(compras)
@@ -68,4 +64,6 @@ def create_app():
     app.register_blueprint(registro)
     app.register_blueprint(nosotros)
     app.register_blueprint(inicio)
+    
     return app
+    
