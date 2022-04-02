@@ -2,7 +2,8 @@ from multiprocessing import context
 from flask import render_template,session,redirect,flash,url_for,request
 from app.insumos.forms import Registro,Editar,Buscar
 from . import insumos
-from .models import Insumo,db
+from .models import Insumo
+from .models import db
 
 @insumos.route("/Listado")
 def listai():
@@ -39,27 +40,27 @@ def registro():
     context = {
         'insumo_form': insumo_form
     }
-    if insumo_form.validate_on_submit():    
-       nombre = str(request.form.get('name').upper())       
-       descripcion = request.form.get('description')     
-       precio=request.form.get('precio_compra')
-       unidad=request.form.get('Unidad_medida')
+    if request.method == 'POST':   
+        nombre = str(request.form.get('name').upper())       
+        descripcion = request.form.get('description')  
+        unidad=request.form.get('Unidad_medida')
        
-       #Consultamos si existe un insumo ya registrado con el email.
-       insumo = Insumo.query.filter_by(name=nombre).first()
-       
-       if insumo: #Si se encontró un insumo, redireccionamos de regreso a la página de registro
-        flash('El Insumo ya existe',category='error')
-        return redirect(url_for('insumos.listai'))
-       
-       newinsumo=Insumo(
-       name=nombre, description=descripcion,precio_compra=precio,unidad_medida=unidad)
-       db.session.add(newinsumo)
-       db.session.commit()
-       flash('El insumo se guardo correctamente',category='correcto')
-       return redirect(url_for('insumos.listai')) 
-    flash('No se pudo realizar el registro de insumo',category='error' )      
-    return redirect(url_for('insumos.listai'))  
+        #Consultamos si existe un insumo ya registrado con el email.
+        insumo = Insumo.query.filter_by(name=nombre).first()
+        
+        if insumo: #Si se encontró un insumo, redireccionamos de regreso a la página de registro
+            flash('El Insumo ya existe',category='error')
+            return redirect(url_for('insumos.listai'))
+        
+        newinsumo=Insumo(
+        name=nombre, description=descripcion,unidad_medida=unidad,precio_compra=0,cantidad=0,estatus=1)
+        db.session.add(newinsumo)
+        db.session.commit()
+        flash('El insumo se guardo correctamente',category='correcto')
+        return redirect(url_for('insumos.listai')) 
+    else:
+        flash('No se pudo realizar el registro de insumo',category='error' )      
+        return redirect(url_for('insumos.listai'))  
 
 
 @insumos.route('/update/<id>', methods=['POST','GET'])
@@ -67,8 +68,7 @@ def updatein(id):
     if request.method == 'POST':
         insumo=Insumo.query.get(id)
         insumo.name = request.form.get('name') 
-        insumo.description =  request.form.get('description')       
-        insumo.precio_compra=request.form.get('precio_compra')
+        insumo.description =  request.form.get('description')  
         insumo.unidad_medida=request.form.get('Unidad_medida')
         db.session.commit()
         flash('Producto actualizado')
@@ -78,7 +78,6 @@ def updatein(id):
         insumo_form_e = Editar()
         insumo_form_e.name.data=insumo.name
         insumo_form_e.description.data=insumo.description     
-        insumo_form_e.precio_compra.data= insumo.precio_compra
         insumo_form_e.Unidad_medida.data=insumo.unidad_medida
         context={
             'insumo_form_e': insumo_form_e,
