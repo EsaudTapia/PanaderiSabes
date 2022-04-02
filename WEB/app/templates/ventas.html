@@ -33,7 +33,8 @@
                                             <td>
                                                 <div  class="btn-group">
                                                     {%if td.status == "pendiente"%}
-                                                        <a href="" class="btn btn-success">Guardar pedido</a>
+                                                        <a href="{{url_for('ventas.ventaact', id=td.id)}}" class="btn btn-success">Guardar venta</a>
+                                                        <a href="{{url_for('ventas.ventadel', id=td.id)}}" class="btn btn-danger">Cancelar</a>
                                                     {%endif%}
                                                     <a href="{{url_for('ventas.detalle', id=td.id)}}" class="btn btn-info">Detalles</a>
                                                 </div>
