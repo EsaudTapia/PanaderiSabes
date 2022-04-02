@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="card-body">
 
-                                    <form action="/compras/registrarCompra"
+                                    <form action="/compras/insumoscart"
                                     method="POST"
                                     class="form-horizontal bordered"
                                     name="form1">
@@ -39,13 +39,10 @@
                                                   <div class="card-body">
                                                       <label>Proveedor:</label>
                                                       <br>
-                                                      <select class="selectpicker"
+                                                      <select required class="selectpicker"
                                                               data-live-search="true"
-                                                              name='Motivo'
-                                                              id="txtProveedor">
-                                                          <option selected>
-                                                              Selecciona un proveedor
-                                                          </option>
+                                                              name='proveedor'
+                                                              id="txtProveedor">                                                       
                                                           {% for proveedor in proveedores  %}
                                                               <option value="{{ proveedor.id }}">
                                                                   {{ proveedor.razon }}
@@ -57,20 +54,37 @@
                                                       <label>Insumos:</label>
                                                       <br>
                                                       <div class="row">
+
+                                                        
                                                           <div class="col-md-8">
-                                                              <select class="selectpicker"
+                                                              <select required class="selectpicker"
                                                                       data-live-search="true"
-                                                                      name='Motivo'
+                                                                      name='insumo'
                                                                       id="txtInsumos">
-                                                                  {% for insumo in insumos  %}
+                                                                  {% for insumo in insumos  %}                                                                     
                                                                       <option selected value="{{ insumo.id }}">
-                                                                          {{ insumo.name }}
+                                                                        {{insumo.unidad_medida}} - {{ insumo.name }}
                                                                       </option>
                                                                   {% endfor %}
                                                               </select>
+                                                               
+                                                            
+                                                          <div >
+                                                         
+                                                            <br>
+                                                            <br>
+                                                            <br>
+
+                                                          {{render_field(formcom.cantidad, class="") }}
+                                                          {{render_field(formcom.precio, class="") }}
+                                                        </div>
                                                           </div>
-                                                          <div class="col-md-2 ml-3">
-                                                              <button type="button"  onclick='nuevoPro();' class="btn btn-success">+</button>
+                                                        
+                                                          
+                                                         <br>
+                                                          
+                                                          <div class="col-md-2 ">
+                                                            {{render_submit(f.enviar, class="btn btn-success ") }}
                                                           </div>
                                                       </div>
                                                   </form>
@@ -82,30 +96,47 @@
                                           <div class="card">
                                               <h5 class="card-header">Lista de productos</h5>
                                               <div class="card-body">
-                                                  <form id="f" name="f">
-                                                      <table id="ListaInsumo" class="table table-bordered table-responsive">
-                                                          <tr>
-                                                              <th hidden>id</th>
-                                                              <th >Nombre</th>
-                                                              <th >Cantidad</th>
-                                                              <th >Precio</th>
-                                                              <th >Eliminar</th>
-                                                          </tr>
-                                                      </table>
-                                                      <button type="button"  onclick='guardar();' class="btn btn-success"></button>
-                                                      <div id="result" class="centrar">Aqui se mostrara el resultado</div>
-                                                  </form>
+                                                <form action="/compras/insumocompra"
+                                                method="POST"
+                                                class="form-horizontal bordered"
+                                                name="form1" enctype="multipart/form-data">
+                                              <div class="modal-body">
+                                                <table class="table table-bordered table-hover table-responsive-sm">
+                                                    <thead class=' text-light thead-dark'>
+                                                        <tr>
+                                                            <th>Nombre</th>
+                                                            <th>Cantidad</th>
+                                                            <th>Precio</th>
+                                                            <th>Subtotal</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for td in lista %}
+                                                            <tr>
+                                                                <td>{{ td.nombre }}</td>
+                                                                <td>{{ td.cantidad }}</td>
+                                                                <td>${{ td.precio }}</td>
+                                                                <td>${{ td.total }}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                  
                                               </div>
-                                              <div class="card-footer">SABES</div>
+                                              <div class="modal-footer">
+                                                 
+                                                  <div class="d-none">
+                                                    {{ formcom.csrf_token }}
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                                                    {{ render_submit(d.enviar, class="btn btn-primary d-none") }}
+                                                    {{render_field(d.total, class="btn btn-primary d-none") }}
+                                                      
+                                                     
+                                                  </div>
+                                                  <button type="submit" class="btn btn-success">Comprar Total: ${{final}}</button>
+                                              </button>
                                           </div>
-
-                                          <div class="mt-3">                                            
-                                              {{ render_submit(formcom.guardar, class="btn btn-primary") }}
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </form>
+                                      </form>
                                 </div>
                                 <div class="card-footer">Sabes</div>
                             </div>
