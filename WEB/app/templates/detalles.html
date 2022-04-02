@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="alert alert-success alter-dismissable fade show" role="alert">VENTAS</div>
+    <div class="alert alert-success alter-dismissable fade show" role="alert">DETALLES VENTAS</div>
     {% from '_macros.html' import render_field %}
     {% from '_macros.html' import render_submit %}
     {% from '_macros.html' import render_textarea %}
@@ -16,28 +16,19 @@
                             <table class="table table-bordered table-hover table-responsive-sm">
                                 <thead class=' text-light thead-dark'>
                                     <tr>
-                                        <th>Cliente</th>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
                                         <th>Total</th>
-                                        <th>Fecha</th>
-                                        <th>Estado</th>
-                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for td in ventas %}
                                         <tr>
                                             <td>{{ td.nombre }}</td>
-                                            <td>${{ td.total }}</td>
-                                            <td>{{ td.fechaRegistro }}</td>
-                                            <td>{{ td.status }}</td>
-                                            <td>
-                                                <div  class="btn-group">
-                                                    {%if td.status == "pendiente"%}
-                                                        <a href="" class="btn btn-success">Guardar pedido</a>
-                                                    {%endif%}
-                                                    <a href="{{url_for('ventas.detalle', id=td.id)}}" class="btn btn-info">Detalles</a>
-                                                </div>
-                                            </td>
+                                            <td>{{ td.cantidad }}</td>
+                                            <td>${{ td.precio }}</td>
+                                            <td>{{ td.total }}</td>
                                         </tr>
                                         {% endfor %}
                                         </tbody>

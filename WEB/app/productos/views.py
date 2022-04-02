@@ -1,12 +1,15 @@
 import os
 from werkzeug.utils import secure_filename
 from flask import render_template,session,redirect,flash,url_for,request
-from .forms import Registro, Editar, InsumosAdd, Producir
+from .forms import Registro, Editar, InsumosAdd, Producir, AddCart, AddVenta
 from .models import Producto
 from .models import Insumo
 from .models import Receta
+from .models import Venta
+from .models import DetalleVenta
 from .models import db
 from . import productos
+from datetime import datetime
 
 @productos.route("/Listado",methods=['GET','POST'])
 def listapr():
@@ -20,6 +23,69 @@ def listapr():
         'prod_form':prod_form
     }
     return render_template("productos.html",**context)
+
+lista = []
+
+@productos.route("/productos",methods=['GET'])
+def listaprcl():
+    
+    productos = Producto.query.all()
+    
+    produ_form = AddCart()
+    v = AddVenta()
+    final = 0
+    for i in lista:
+        final+=float(i["total"])
+    v.total.data = final
+    context = {
+        'productos': productos,
+        'lista':lista,
+        'f':produ_form,
+        'd':v,
+        'final':final
+    }
+    return render_template("productos-cliente.html",**context)
+
+@productos.route("/productosventa", methods=['POST'])
+def venta():
+    d = AddVenta()
+    hoy = datetime.today()
+    
+    idcl = 1
+    
+    venta = Venta(id_em=0,id_cl=idcl,total=d.total.data,status="pendiente",fechaRegistro=hoy)
+   
+    db.session.add(venta)
+    db.session.commit()
+    ve = Venta.query.filter_by(total=d.total.data,id_cl=idcl,status="pendiente").first()
+    for i in lista:
+        d = DetalleVenta(id_venta=ve.id,id_pr=i['id'],precio=i['precioVenta'],cantidad=i['cantidad'],total=i['total'])
+        db.session.add(d)
+    
+    db.session.commit()
+    lista.clear()
+    return redirect(url_for("productos.listaprcl"))
+
+@productos.route("/productoscart", methods=['POST'])
+def cart():
+    produ_form = AddCart()
+    
+    for i in lista:
+        if i['id'] == request.form.get("id"):
+            i['cantidad'] = int(i['cantidad'])  + int(request.form.get("cantidad"))
+            i['total'] = float(i['precioVenta'])*int(i['cantidad'])
+            return redirect(url_for("productos.listaprcl"))
+    l = {
+        'id':request.form.get("id"),
+        'nombre':request.form.get("nombre"),
+        'precioVenta':request.form.get("precioVenta"),
+        'cantidad':request.form.get("cantidad"),
+        'total':float(request.form.get("precioVenta"))*int(request.form.get("cantidad"))
+    }
+    
+    lista.append(l)
+    
+    return redirect(url_for("productos.listaprcl"))
 
 @productos.route("/registro", methods=['POST'])
 def registro():

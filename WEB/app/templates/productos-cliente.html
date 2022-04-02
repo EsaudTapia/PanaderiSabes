@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">PRODUCTOS</div>
+    {% from '_macros.html' import render_field %}
+    {% from '_macros.html' import render_submit %}
+    {% from '_macros.html' import render_textarea %}
+    
+    <div class="row">
+        <div class="col-12 form-group">
+            <button alt="Nuevo registro"
+                                    type="button"
+                                    class="btn btn-success float-right"
+                                    data-toggle="modal"
+                                    style='border-radius: 50%;'
+                                    data-target="#exampleModal">
+                                <i class="fa fa-cart-plus"></i>
+                            </button>
+        </div>
+        {% for td in productos %}
+        <div class="col-12 col-md-6 col-lg-3 mb-1">
+            <div class="card">
+                <img src="../static/img/img{{ td.id }}.jpg" class="w-100" style="object-fit: cover;" height="200">
+                <div class="card-body">
+                <form action="/productos/productoscart"
+                    method="POST"
+                    class="form-horizontal bordered"
+                    name="form1" enctype="multipart/form-data">
+                    <h5 class="card-title">{{ td.nombre }}</h5>
+                    <p class="card-text">Precio: ${{ td.precioVenta }} MXN.</p>
+                    <p class="card-text">{{ td.descripcion }}</p>
+                    
+                        {{ f.csrf_token }}
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                        <input type="number" required name="cantidad" class="form-control" placeholder="Cantidad" value="{{ td.cantidad }}">
+                    <div class="form-group"></div>
+                    <div class="form-group d-none">
+                        <input type="text" name="nombre" value="{{ td.nombre }}">
+                        <input type="number" name="precioVenta" value="{{ td.precioVenta }}">
+                        <input type="number" name="id" value="{{ td.id }}">
+                    </div>
+                    
+                    {{ render_submit(f.enviar, class="btn btn-primary") }}
+                </form>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+    
+                <div class="modal fade"
+                     id="exampleModal"
+                     tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header text-light " style='background-color: black;'>
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    Registrar compra
+                                </h5>
+                                <button type="button"
+                                        class="close text-light "
+                                        data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="/productos/productosventa"
+                                  method="POST"
+                                  class="form-horizontal bordered"
+                                  name="form1" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <table class="table table-bordered table-hover table-responsive-sm">
+                                        <thead class=' text-light thead-dark'>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Cantidad</th>
+                                                <th>Precio</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for td in lista %}
+                                                <tr>
+                                                    <td>{{ td.nombre }}</td>
+                                                    <td>{{ td.cantidad }}</td>
+                                                    <td>${{ td.precioVenta }}</td>
+                                                    <td>${{ td.total }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">
+                                        Seguir comprando
+                                    </button>
+                                    <div class="d-none">
+                                        {{ d.csrf_token }}
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token()}}">
+                                        {{ render_submit(d.enviar, class="btn btn-primary d-none") }}
+                                        {{render_field(d.total, class="btn btn-primary d-none") }}
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Pagar Total: ${{final}}</button>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    {% endblock %}

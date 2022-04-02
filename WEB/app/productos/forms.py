@@ -14,6 +14,16 @@ class Registro(FlaskForm):
     precio=FloatField('Precio a la venta', [validators.DataRequired(message='El campo es requerido')])
 
     enviar = SubmitField("Enviar")
+
+class AddCart(FlaskForm):    
+
+    enviar = SubmitField("Añadir al carrito")
+
+class AddVenta(FlaskForm):    
+    total = FloatField('Total', [validators.DataRequired(message='El campo es requerido')])
+    enviar = SubmitField("Guardar")
+    
+
     
 class Editar(FlaskForm):    
     nombre=StringField('Nombre', [validators.DataRequired(message='El campo es requerido'),

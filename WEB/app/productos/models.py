@@ -5,6 +5,28 @@ from flask_sqlalchemy import SQLAlchemy
 db= SQLAlchemy()
 
 
+class Venta(db.Model):
+    """User acount modal we"""
+    
+    __tablename__ = 'venta'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    id_em = db.Column(db.String(50), nullable=False)
+    id_cl = db.Column(db.Float, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    fechaRegistro = db.Column(db.DateTime)
+    
+class DetalleVenta(db.Model):
+    __tablename__ = 'detalle_venta'
+    
+    id = db.Column(db.Integer,primary_key=True)
+    id_venta = db.Column(db.Integer, nullable=False)
+    id_pr = db.Column(db.String(50), nullable=False)
+    precio = db.Column(db.Float, nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+    total = db.Column(db.Float, nullable=False)
+
 class Producto(db.Model):
     """User acount modal we"""
     

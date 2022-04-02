@@ -38,6 +38,7 @@ from .insumos.models import db
 from .empleados.models import db 
 from .productos.models import db 
 from .mermas.models import db 
+from .ventas.models import db 
 def create_app():
     app=Flask(__name__)
     app.config.from_object(DevelopmentConfig)
