@@ -4,10 +4,10 @@ from app.forms import Registro
 from ..models import Role,User
 from .. import db
 from . import registro
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 
 @registro.route("/Registrate",methods=['GET','POST'])
-@login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def registrar():
      
     role_cliente = Role.query.get(3)
@@ -25,6 +25,7 @@ def registrar():
 
 @registro.route('/delete/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def delete(id):
     
     u=User.query.filter_by(id=id).first()
@@ -35,6 +36,7 @@ def delete(id):
 
 @registro.route('/active/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def active(id):
     
     u=User.query.filter_by(id=id).first()

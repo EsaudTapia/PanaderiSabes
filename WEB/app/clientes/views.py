@@ -3,7 +3,7 @@ from  .forms import Registro
 from . import clientes
 from ..models import User,Role
 from .. import db
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 from werkzeug.security import generate_password_hash
 
 """@clientes.route("/listadoclientes",methods=['GET','POST'])
@@ -11,8 +11,6 @@ def listac():
     return render_template("clientes.html")"""
 
 @clientes.route("/registrocliente",methods=['GET','POST'])
-@login_required
-@roles_required('ADMINISTRADOR')
 def registroc():
     cl_form = Registro()
     context={
@@ -43,6 +41,7 @@ def registroc():
         telefono = telefono,
         email = email,
         password=generate_password_hash(password,method='sha256'),
+        active=1,
         status = 1)
         default_role = Role.query.filter_by(id=3).first()
         new.roles.append(default_role)

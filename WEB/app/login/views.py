@@ -9,7 +9,7 @@ from ..models import User
 @login_required
 @roles_required('ADMINISTRADOR')# autorizacion para el rol admn¿in
 def profile():
-    return render_template('dasboard.html')
+    return render_template('inicio.html')
 
 
 @login.route('/profileCli')
@@ -23,11 +23,10 @@ def profileCli():
 @login_required
 @roles_required('EMPLEADO')# autorizacion para el rol admn¿in
 def profileEmp():
-    return render_template('dasboard.html')
+    return render_template('inicio.html')
 
 
 @login.route("/iniciar")
-@login_required
 def iniciar():
     form_login = Registro()
     context={
@@ -37,7 +36,6 @@ def iniciar():
 
 
 @login.route("/iniciar",methods=['POST'])
-@login_required
 def loginPost():
     email = request.form.get('emailLogin')
     password= request.form.get('passwordLogin')
@@ -76,7 +74,6 @@ def loginPost():
    
        
 @login.route('/logout')
-@login_required
 @login_required
 def logout():
     #Cerramos la sessión

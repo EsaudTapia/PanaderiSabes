@@ -42,6 +42,7 @@ def ventaact(id):
     
     ven = Venta.query.filter_by(id=id).first()    
     ven.status = "Realizada"
+    ven.id_em = current_user.id
     
     db.session.commit()
     flash("La venta se ha realizado.", category="correcto")
@@ -61,8 +62,9 @@ def ventadel(id):
 
 @ventas.route("/ListadoVentas",methods=['GET'])
 @login_required
+@roles_required('CLIENTE')
 def listavcl():
-    ventas = Venta.query.join(User, Venta.id_cl==User.id).add_columns(Venta.status,Venta.id, User.nombre,Venta.fechaRegistro,Venta.total).filter(Venta.id_cl==5)
+    ventas = Venta.query.join(User, Venta.id_cl==User.id).add_columns(Venta.status,Venta.id, User.nombre,Venta.fechaRegistro,Venta.total).filter(Venta.id_cl==current_user.id)
     print(str(ventas))
     context = {
         'ventas': ventas
@@ -78,7 +80,7 @@ def ventadelcl(id):
     venta.status = "Cancelada"
     db.session.commit()
     flash("La venta se ha cancelado.", category="correcto")
-    return redirect(url_for('ventas.listav'))
+    return redirect(url_for('ventas.listavcl'))
 
 @ventas.route("/detalles/<id>",methods=['GET'])
 @login_required

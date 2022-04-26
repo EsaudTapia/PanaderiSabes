@@ -23,8 +23,7 @@
                   <thead class=' text-light thead-dark' >
                       <tr>                         
                           <th>Nombre</th>
-                          <th>Descripcion</th>                                                 
-                          <th>Acciones</th>
+                          <th>Descripcion</th>   
                       </tr>
                   </thead>
                   <tbody>
@@ -33,19 +32,7 @@
                       <tr>
                           <td>{{td.name}}</td>
                           <td>{{td.description}}</td>                                               
-                          <td>
-                           
-                          <div class="btn-group">
-                            <a href="{{ url_for('roles.update',id=td.id) }}"  class="btn btn-warning">Editar</a>
-                            {% if  td.estatus == True  %}
-                            
-                            <a href="{{ url_for('roles.delete', id=td.id) }}"   class="btn btn-danger">Eliminar</a>
-
-                            {% else %}
-                            <a href="{{ url_for('roles.activate', id=td.id) }}"   class="btn btn-success">Activar</a>
-                            {% endif %}
-                            
-                          </td>
+                          
                       </tr>
                       {%endfor%}
                   </tbody>
@@ -58,9 +45,7 @@
                 <div class="col-md-5">
                 </div>
                 <div class="col-md-2">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" style='display: block; width: 50px; height: 50px; border-radius: 50%;' data-target="#exampleModal">
-                   <i class="fa fa-plus" aria-hidden="true"></i>
-                </button>
+                  
                 </div>
               </div>
             </div>
@@ -87,7 +72,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/roles/registro" method="POST" class="form-horizontal bordered" name="form1" >          
+        <form action="/roles/registro" method="POST" class="form-horizontal bordered"  name="form1" >          
             <div class="modal-body">
                     {{ role_form.csrf_token }}
                     <input type="hidden" name="csrf_token" value="{{csrf_token()}}">

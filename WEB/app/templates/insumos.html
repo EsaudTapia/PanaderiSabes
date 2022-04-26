@@ -50,7 +50,7 @@
                                             {% if td.cantidad ==None %}
                                             <td>0.0</td>
                                             {% else %}
-                                            <td>{{ td.cantidad }}</td>
+                                            <td>{{ td.cantidad / 1000 }}</td>
                                             {% endif %}
                                             
                                             <td>$ {{ td.precio_compra }} MX</td>

@@ -5,13 +5,18 @@ from flask_wtf import FlaskForm
 from wtforms.fields import StringField,PasswordField
 from wtforms.validators import DataRequired
 
+def validacion(form,field):
+    if float(field.data) < 0:
+        raise validators.ValidationError("El valor minimo es 1")
+        
 
 class Registro(FlaskForm):    
     nombre=StringField('Nombre', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=1, max=50, message='Ingresa nombre valido')])
     descripcion=StringField('Descripción', [validators.DataRequired(message='El campo es requerido'),
                                       validators.length(min=1, max=200, message='Ingresa un apellido valido')])
-    precio=FloatField('Precio a la venta', [validators.DataRequired(message='El campo es requerido')])
+    precio=FloatField('Precio a la venta', [validators.DataRequired(message='El campo es requerido'),
+                                            validacion])
 
     enviar = SubmitField("Enviar")
 

@@ -6,12 +6,13 @@ from .form import Buscar
 from . import proveedores
 from ..models import Proveedor
 from .. import db
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 
 
 
 @proveedores.route("/Listado")
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listapro():
     
     pro_form = Registro()
@@ -27,6 +28,7 @@ def listapro():
 
 @proveedores.route('/listado',methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def buscar():
     buscar_form= Buscar()
     pro_form = Registro()
@@ -45,6 +47,7 @@ def buscar():
 
 @proveedores.route("/Listado_post", methods=["POST"])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def registro():
     pro_form = Registro()
     
@@ -80,6 +83,7 @@ def registro():
 
 @proveedores.route("/editar/<id>")
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def update(id):
     pro_form = Editar()
     
@@ -103,6 +107,7 @@ def update(id):
 
 @proveedores.route("/editar/<id>", methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def update_post(id):
     pro_form = Editar()
     
@@ -126,6 +131,7 @@ def update_post(id):
 
 @proveedores.route('/delete/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def delete(id):
     
     pr=Proveedor.query.filter_by(id=id).first()
@@ -136,6 +142,7 @@ def delete(id):
 
 @proveedores.route('/active/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def active(id):
     
     pr=Proveedor.query.filter_by(id=id).first()

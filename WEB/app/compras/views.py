@@ -5,10 +5,11 @@ from ..models import Insumo,Proveedor,DetalleCompra,compra as comprasl,Insumo
 from . import compras
 from .forms import AddCart, Addinsumo, RegistroCompra
 from .. import db
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 
 @compras.route("/listado",methods=['GET','POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listaco():
     formcom= RegistroCompra()
     d= Addinsumo()
@@ -32,6 +33,7 @@ lista = []
 
 @compras.route("/insumoscart", methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def cart():
     produ_form = AddCart()
     
@@ -63,6 +65,7 @@ def cart():
 
 @compras.route("/insumos",methods=['GET'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listacom():
     proveedores = Proveedor.query.all()
     insumos = Insumo.query.all()
@@ -89,6 +92,7 @@ def listacom():
 
 @compras.route("/insumocompra", methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def compra():
     d = Addinsumo()
     hoy = datetime.today()

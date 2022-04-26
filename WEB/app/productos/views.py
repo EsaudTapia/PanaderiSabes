@@ -1,4 +1,5 @@
 import os
+from wsgiref import validate
 from werkzeug.utils import secure_filename
 from flask import render_template,session,redirect,flash,url_for,request
 from .forms import Registro, Editar, InsumosAdd, Producir, AddCart, AddVenta
@@ -6,11 +7,12 @@ from ..models import Producto,Insumo,Receta,Venta,DetalleVenta
 from .. import db
 from . import productos
 from datetime import datetime
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 
 
 @productos.route("/Listado",methods=['GET','POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listapr():
     
     pro_form = Registro()
@@ -49,13 +51,17 @@ def listaprcl():
 @productos.route("/productosventa", methods=['POST'])
 @login_required
 def venta():
+    if lista == []:
+        flash("El carrito esta vacio.", category="error")
+        return redirect(url_for("productos.listaprcl"))
+        
     d = AddVenta()
     hoy = datetime.today()
     
-    idcl = 1
+    idcl = current_user.id
     
     venta = Venta(id_em=0,id_cl=idcl,total=d.total.data,status="pendiente",fechaRegistro=hoy)
-   
+    
     db.session.add(venta)
     db.session.commit()
     ve = Venta.query.filter_by(total=d.total.data,id_cl=idcl,status="pendiente").first()
@@ -91,8 +97,14 @@ def cart():
 
 @productos.route("/registro", methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def registro():
     pro_form = Registro()
+    
+    if pro_form.validate() == False:
+        flash("No puedes ingresar cantidades negativas.",category="error")
+        return redirect(url_for('productos.listapr'))
+        
     nombre = pro_form.nombre.data.upper()
     
     u = Producto.query.filter_by(nombre = nombre).first()
@@ -125,6 +137,7 @@ def registro():
 
 @productos.route("/editar/<id>")
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def update(id):
     pro_form = Editar()
     
@@ -143,6 +156,7 @@ def update(id):
 
 @productos.route("/editar/<id>", methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def update_post(id):
     pro_form = Editar()
     
@@ -176,6 +190,7 @@ def update_post(id):
 
 @productos.route('/delete/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def delete(id):
     
     p=Producto.query.filter_by(id=id).first()
@@ -186,6 +201,7 @@ def delete(id):
 
 @productos.route('/active/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def active(id):
     
     p=Producto.query.filter_by(id=id).first()
@@ -196,6 +212,7 @@ def active(id):
 
 @productos.route('/producto-insumo/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def proin(id):
     
     insumo_form = InsumosAdd()
@@ -222,6 +239,7 @@ def proin(id):
 
 @productos.route('/producto-insumo/<id>', methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def proin_post(id):
     
     insumo_form = InsumosAdd()
@@ -267,6 +285,7 @@ def proin_post(id):
 
 @productos.route('/delproducto-insumo/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def borrar(id):
 
     re = Receta.query.filter_by(id_r=id).first()
@@ -280,6 +299,7 @@ def borrar(id):
 
 @productos.route('/producir/<id>')
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def producir(id):
     
     prod_form = Producir()
@@ -291,6 +311,7 @@ def producir(id):
 
 @productos.route('/producir/<id>', methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def producir_post(id):
     
     prod_form = Producir()

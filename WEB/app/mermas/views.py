@@ -3,11 +3,12 @@ from .forms import Registro
 from ..models import Merma,Producto
 from datetime import datetime
 from . import mermas
-from flask_security import login_required,roles_required ,current_user
+from flask_security import login_required,roles_required ,current_user,roles_accepted
 from .. import db
 
 @mermas.route("/Listado",methods=['GET','POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listam():
     
     me_form = Registro()
@@ -28,6 +29,7 @@ def listam():
 
 @mermas.route("/listam_post",methods=['POST'])
 @login_required
+@roles_accepted('ADMINISTRADOR','EMPLEADO')
 def listam_post():
     
     me_form = Registro()
